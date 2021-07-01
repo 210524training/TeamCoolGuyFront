@@ -1,0 +1,27 @@
+User stories and story points
+
+- As a user you can log in 2 pts
+- As a player you can register 2pts
+- As a player I can to manage my collection 5pts
+	- As a player I can to view my collection 2pts
+	- As a player I can add cards to my collection 3pts
+	- As a player I can remove cards from my collection
+- As a player I can view a store 1pts
+- As a player I can purchase cards from a store 2pts
+- As a store owner I can manage my inventory 5pts
+	- As a store owner I can add cards to my inventory 3pts
+	- As a store owner I can view my inventory 2pts
+	- As a store owner I can modify my inventory
+- As a player I can make a trade offer
+- As a player I can accept a trade offer
+- As a player I can reject a trade offer
+- As a user I can send/recieve messages
+- As a player I can view other players inventory
+
+
+
+
+
+Stretch Goal
+-Manage decks/collections
+-Actual money system
