@@ -5,7 +5,7 @@ Our project is a trading card game inventory management system. Often times when
 "I'm looking for this card, do you have it?" or "I'm looking to trade this card do you need it?" and I answer them with "Hell if I know,
 I don't carry around my entire collection with me". What would be really helpful is if I had an app that I could use to manage my
 collection from my computer at home, view and show my collection on my phone when I'm out, and purchase or trade cards from anywhere.
-That's where TCG's .tm &copy TradingCardGame IMS come in handy.
+That's where TCG's TradingCardGame IMS come in handy.
 
 Our app comes with two roles, the primary user role or "players" and the "store owner" role. The player role is our primary target
 audience and where most of the functionality comes in. Players are able to manage their collection by registering as a user and logging in.
