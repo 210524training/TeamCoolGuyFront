@@ -15,4 +15,4 @@ collection or "inventory" in this case, they do so with the purpose of selling t
 
 The backend of the application will handle a few things. First will be authentication and registration. Things like making sure a username doesn't already exist when trying to create a new user and checking that a user's password is correct when logging in. It will handle retrieving data from any api's that we may use like getting a card's stats or an image for the card. The backend will also deal with updating and retrieving information from the database. The front end will be left with the responsibilty of displaying the UI. There will be pages for collection management, and a page for viewing storefronts to buy store owners cards. There will even be a page to facilitate trades between players with a messaging system included.
 
-It is my hope that this system can alleviate the burden of card collection archiving/management from players who love of the game is as big as thier collection.
+It is my hope that this system can alleviate the burden of card collection archiving/management from players whose love of the game is as big as thier collection.
