@@ -1,11 +1,11 @@
-# TeamCoolGuyFront
-Front end repository for TeamCoolGuy's trading card game inventory managment system also known as TCG'sTCGIMS.
+# TeamCoolGuy-Front
+Front end repository for TeamCoolGuy's trading card game inventory management system, also known as TC-Swap.
 
-Our project is a trading card game inventory management system. Often times when meeting people to play cards they may ask you things like
-"I'm looking for this card, do you have it?" or "I'm looking to trade this card do you need it?" and I answer them with "Hell if I know,
-I don't carry around my entire collection with me". What would be really helpful is if I had an app that I could use to manage my
-collection from my computer at home, view and show my collection on my phone when I'm out, and purchase or trade cards from anywhere.
-That's where TCG's TradingCardGame IMS come in handy.
+
+TC-Swap is a trading card game inventory management system. Our goal is to engage the diverse and vast community of collecting and trading cards. It can be challenging scouring the internet across many websites looking for the right card. Online trading can be a hassle as many websites do not offer services for such activities.  TC-Swap will solve this problem by providing a streamlined, focused platform centered around trading card enthusiasts where collectors, traders, and sellers of all different TCG's can engage in trades and sales. 
+
+Through our application, we hope to build and unite the incredible trading card community.
+
 
 Our app comes with two roles, the primary user role or "players" and the "store owner" role. The player role is our primary target
 audience and where most of the functionality comes in. Players are able to manage their collection by registering as a user and logging in.
