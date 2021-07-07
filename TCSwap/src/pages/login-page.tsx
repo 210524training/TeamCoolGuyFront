@@ -68,6 +68,7 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
         <TextInput
           style={{ fontSize: 18, margin: 10 }}
           placeholder="Password"
+          secureTextEntry={true}
           onChangeText={text => setPassword(text)}
           defaultValue={password}
         />
