@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
-import { Button, StyleSheet, TextInput, Text, View } from 'react-native';
+import { Button, StyleSheet, TextInput, Text, View, StatusBar } from 'react-native';
 import ManageStore from './Manage-Store';
 import Messenger from './Messenger';
 import { Ionicons } from '@expo/vector-icons';
@@ -44,14 +44,15 @@ const StoreOwnerPage: React.FC<unknown> = () => {
 const styles = StyleSheet.create ({
   header: {
     textAlign: 'center',
-    color: 'blue',
     backgroundColor: '#731F17',
+    paddingTop: StatusBar.currentHeight
   },
   headerText: {
     fontWeight: 'bold',
     fontSize: 20,
-    padding: 20,
-    color: '#D98E04'
+    paddingBottom: 20,
+    color: '#D98E04',
+    textAlign: 'center'
   }
 })
 
