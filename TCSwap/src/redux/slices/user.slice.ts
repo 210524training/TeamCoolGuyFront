@@ -40,7 +40,7 @@ export const loginAsync = createAsyncThunk<User, LoginCredentials>(
       // const response = await sendLogin(username, password);
       if(username === exampleStoreOwner.username && password === exampleStoreOwner.password) return exampleStoreOwner;
       if(username === examplePlayer.username && password === examplePlayer.password) return examplePlayer;
-      return null;
+      throw new Error('invalid login');
     } catch(error) {
       // console.log(`error is an AxiosError: ${isAxiosError(error)}`);
       return thunkAPI.rejectWithValue(error);
