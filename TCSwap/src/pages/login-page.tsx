@@ -58,6 +58,10 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
       <View>
         <Text>Hello! Welcome to our login page.</Text>
         <Button
+          title="register user shortcut"
+          onPress={()=>navigation.navigate('Register')}>register user shortcut
+        </Button>
+        <Button
           title="Store owner log in shortcut"
           onPress={handleOwnerLogin}>Store owner log in shortcut
         </Button>
