@@ -18,9 +18,9 @@ const PlayerPage: React.FC<unknown> = () => {
   return (
     <>
       <Tab.Navigator>
-          <Tab.Screen name="Trades" component={TradePage} />
-          <Tab.Screen name="My Collection" component={MyCollectionPage} />
-          <Tab.Screen name="View Stores" component={ViewStoresPage} />
+        <Tab.Screen name="My Collection" component={MyCollectionPage} />
+        <Tab.Screen name="Trades" component={TradePage} />
+        <Tab.Screen name="View Stores" component={ViewStoresPage} />
       </Tab.Navigator>
     </>
   );
