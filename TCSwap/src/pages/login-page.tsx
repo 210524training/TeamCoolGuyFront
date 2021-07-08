@@ -38,7 +38,16 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
   const handleLogin= async()=>{
     const result = await dispatch(loginAsync({username, password}));
     if(result.meta.requestStatus ==='fulfilled'){
-      navigation.navigate('Players');
+      const currUser = result.payload as UserState;
+      if(currUser){
+        if(currUser.role === 'player'){
+          navigation.navigate('Players');
+        }
+        else{
+          navigation.navigate('Store Owners');
+        }
+      }
+      
     }else{
       alert('login failed');
     }
