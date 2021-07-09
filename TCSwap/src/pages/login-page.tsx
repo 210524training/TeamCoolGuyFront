@@ -66,12 +66,14 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
       </View>
       {/** BELOW IS LOGIN FORM */}
       <View style={{ width: '100%', padding: 25 }}>
+        <Text >Username:</Text>
         <TextInput
           style={{ fontSize: 18, margin: 10, backgroundColor: 'white' }}
           placeholder="Username"
           onChangeText={text => setUsername(text)}
           defaultValue={username}
         />
+        <Text >Password:</Text>
         <TextInput
           style={{ fontSize: 18, margin: 10, backgroundColor: 'white' }}
           placeholder="Password"
