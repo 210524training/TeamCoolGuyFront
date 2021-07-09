@@ -5,6 +5,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import LoginPage from './src/pages/login-page';
+import RegisterPage from './src/pages/register-page';
 import PlayerPage from './src/pages/player-page';
 import StoreOwnerPage from './src/pages/store-owner-page';
 import store from './src/redux/store';
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginPage} />
           <Stack.Screen name="Players" component={PlayerPage} />
           <Stack.Screen name="Store Owners" component={StoreOwnerPage} />
+          <Stack.Screen name="Register" component={RegisterPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

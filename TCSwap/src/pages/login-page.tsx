@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { loginAsync, logout, selectUser, UserState } from '../redux/slices/user.slice'; 
 import { useNavigation } from '@react-navigation/native';
+import CustButton1 from '../components/CustButton1';
 
 type Props = { navigation: any }
 
@@ -57,35 +58,32 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
     <>
       <View>
         <Text>Hello! Welcome to our login page.</Text>
-        <Button
-          title="Store owner log in shortcut"
-          onPress={handleOwnerLogin}>Store owner log in shortcut
-        </Button>
-        <Button
-          title="Player log in shortcut"
-          onPress={handlePlayerLogin}>Player log in shortcut
-        </Button>
+        <CustButton1 title="register user shortcut" onPress={()=>navigation.navigate('Register')}/>
+        
+        <CustButton1 title="Store owner log in shortcut"onPress={handleOwnerLogin}/>
+        <CustButton1 title="Player log in shortcut" onPress={handlePlayerLogin}/>
+        
       </View>
       {/** BELOW IS LOGIN FORM */}
-      <View style={{ width: '100%', padding: 25, }}>
+      <View style={{ width: '100%', padding: 25 }}>
+        <Text >Username:</Text>
         <TextInput
-          style={{ fontSize: 18, margin: 10 }}
+          style={{ fontSize: 18, margin: 10, backgroundColor: 'white' }}
           placeholder="Username"
           onChangeText={text => setUsername(text)}
           defaultValue={username}
         />
+        <Text >Password:</Text>
         <TextInput
-          style={{ fontSize: 18, margin: 10 }}
+          style={{ fontSize: 18, margin: 10, backgroundColor: 'white' }}
           placeholder="Password"
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
           defaultValue={password}
         />
 
-        <Button
-          onPress={handleLogin}
-          title="Sign in"
-        />
+     
+        <CustButton1 onPress={handleLogin} title="Sign in"/>
       </View>
     </>
         
