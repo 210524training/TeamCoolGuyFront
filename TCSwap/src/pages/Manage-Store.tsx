@@ -3,7 +3,9 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Alert, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
-import StoreCardItem from '../components/Store-Card-Item'
+import StoreCardItem from '../components/StoreCardItem'
+
+
 
 type Props = {
   item: any

@@ -1,34 +1,19 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { Button, StyleSheet, TextInput, Text, View } from 'react-native';
-/* import { useAppDispatch, useAppSelector } from '../hooks';
-import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice'; */
-import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import CardItem from '../components/PlayerCardItem';
+import Collection from '../components/collection';
+
 
 const MyCollectionPage: React.FC<unknown> = () => {
 
+  const CollectionStack = createStackNavigator();
+
   return (
-    <View>
-      <Text>Nice collection!.</Text>
-    </View >
+    <CollectionStack.Navigator initialRouteName="Collection">
+      <CollectionStack.Screen name="Collection" component={Collection} />
+      <CollectionStack.Screen name="Card Info" component={CardItem} />
+    </CollectionStack.Navigator>
   );
 }
-
-/* const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-}); */
 
 export default MyCollectionPage;
