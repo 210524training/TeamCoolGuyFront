@@ -10,7 +10,7 @@ const ygoClient = axios.create({
   },
 });
 
-export const getCardByName = async (name: string): Promise<unknown> => {
+export const getCardByName = async (name: string): Promise<any> => {
     const url = '?name=' + name;
     const response = await ygoClient.get<unknown>(url);
     return response.data;

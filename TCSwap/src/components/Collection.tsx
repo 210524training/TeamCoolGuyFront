@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
-import { getCardByName } from '../remote/apis/YGOapi';
+import { getCardCollection } from '../remote/Backend.api';
 
 type props = {
     collection: Array<string>,
@@ -9,9 +9,16 @@ type props = {
 
 const Collection: React.FC<props> = (props) => {
 
-  const tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon'];
+  const [cardCollection, setCardCollection] = useState<string[]>([]);
 
-  const buttons: JSX.Element[] = tmpCollection.map<JSX.Element>((cardName) => {
+  useEffect(() => {
+    (async () => {
+      const collection = await getCardCollection();
+      setCardCollection(collection);
+    })();
+  }, []);
+
+  const buttons: JSX.Element[] = cardCollection.map<JSX.Element>((cardName) => {
     return (
     <Button title={cardName}
             onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }>
