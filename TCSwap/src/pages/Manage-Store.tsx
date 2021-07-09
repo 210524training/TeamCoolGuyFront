@@ -1,13 +1,17 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable } from 'react-native';
+import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable, StatusBar } from 'react-native';
 import DATA from '../../temp-card-data.json'
-import Item from '../components/Store-Card-Item'
+import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
+import StoreCardItem from '../components/Store-Card-Item'
+import StoreOwnerCardDetails from './store-owner-card-details-page';
 
+type Props = {
+  item: any
+  navigation: any
+}
 
-
-const ManageStore: React.FC<unknown> = () => {
-
-  const [selectedId, setSelectedId] = React.useState(null);
+const ManageStore: React.FC<Props> = ({ navigation }) => {
 
   const handleAddCard = () => {
     Alert.alert("Add New Stock", "Enter name of the card to add to inventory",
@@ -33,36 +37,35 @@ const ManageStore: React.FC<unknown> = () => {
     ])
   }
 
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#022873" : "#d8d9d0";
-    const color = item.id === selectedId ? 'white' : 'black';
+  const handleOnPress = () => {
+    navigation.navigate('Card-Details');
+  }
+
+  const renderCardItem = ({ item }) => {
 
     return (
-      <Item
+      <StoreCardItem
         item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
+        onPress={handleOnPress}
+        navigation={ navigation }
       />
     );
   };
-
+  
   return (
     <>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Store Name</Text>
+      </View>
       <View style={styles.controls}>
-        <Pressable  style={styles.button} onPress={() => handleAddCard()}>
-          <Text style={styles.text}>Add Stock</Text>
-        </Pressable>
-        <Pressable  style={styles.button} onPress={() => handleSetFeaturedCard()}>
-          <Text style={styles.text}>Set Featured</Text>
-        </Pressable>
+        <ButtonBlackWhite text={'Add Stock'} functionality={() => handleAddCard()} />
+        <ButtonBlackWhite text={'Set Featured'} functionality={() => handleSetFeaturedCard()} />
       </View>
       <View>
           <FlatList 
             data={DATA}
-            renderItem={renderItem}
+            renderItem={renderCardItem}
             keyExtractor={(item) => String(item.id)}
-            extraData={selectedId}
           >
           </FlatList>
       </View>
@@ -95,5 +98,17 @@ const styles = StyleSheet.create({
   controls: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
+  },
+  header: {
+    textAlign: 'center',
+    backgroundColor: '#731F17',
+    paddingTop: 20
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingBottom: 20,
+    color: '#D98E04',
+    textAlign: 'center'
   }
 });
