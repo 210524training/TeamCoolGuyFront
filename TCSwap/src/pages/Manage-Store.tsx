@@ -6,6 +6,7 @@ import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite'
 import StoreCardItem from '../components/StoreCardItem'
 
 
+
 type Props = {
   item: any
   navigation: any
