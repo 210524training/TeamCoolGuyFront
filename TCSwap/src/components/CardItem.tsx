@@ -1,59 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
-import YGOCard, { MonsterCard, YGOCARD_HEIGHT, YGOCARD_WIDTH } from '../models/YGOCard';
-import { getCardByName } from '../remote/apis/YGOapi';
+import React from 'react';
+import { TouchableOpacity, StyleSheet, Text, Image, View, TouchableHighlight } from 'react-native';
 
-const IMAGE_SCALE = 5;
-
-const styles = StyleSheet.create ({
-  cardImage: {
-    width: YGOCARD_WIDTH*IMAGE_SCALE,
-    height: YGOCARD_HEIGHT*IMAGE_SCALE,
-  },
-})
-
-type props = {
-    route: any;
+type Props = {
+  item: any,
+  onPress: any,
+  backgroundColor: any,
+  textColor: any,
 }
 
-const CardItem: React.FC<props> = ({route}) => {
+const rightButtons = [
+  <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
+  <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
+];
 
-  const { cardName } = route.params;
+const CardItem: React.FC<Props> = ({ item, onPress, backgroundColor, textColor }) => (
 
-  const [cardDetails, setCardDetails] = useState<YGOCard>();
-
-  useEffect(() => {
-    (async () => {
-      const card = await getCardByName(cardName);
-      setCardDetails(card.data[0]);
-    })();
-  }, []);
-
-  return (
-    <View>
-      <Image
-        style={styles.cardImage}
+  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    <Image
+        style={styles.tinyLogo}
         source={{
-          uri: cardDetails && cardDetails.card_images[0].image_url,
+          uri: 'https://storage.googleapis.com/ygoprodeck.com/pics_small/6983839.jpg',
         }}
       />
-      <Text>Name: {cardDetails && cardDetails.name}</Text>
-      <Text>Card Type: {cardDetails && cardDetails.type}</Text>
-      <Text>Type: {cardDetails && cardDetails.race}</Text>
-      {
-        (cardDetails && cardDetails.type.includes('Monster')) ? 
-          <>
-            <Text>Attack: {(cardDetails as MonsterCard).atk}</Text>
-            <Text>Defense: {(cardDetails as MonsterCard).def}</Text>
-            <Text>Level: {(cardDetails as MonsterCard).level}</Text>
-            <Text>Attribute: {(cardDetails as MonsterCard).attribute}</Text>
-          </> 
-          : 
-          <></>
-      }
-      <Text>Description: {cardDetails && cardDetails.desc}</Text>
-    </View >
-  );
-}
+      <View style={styles.details}>
+        <Text style={[styles.title, textColor]}>{item.name}</Text>
+      </View>
+  </TouchableOpacity>
+  
+);
 
-export default CardItem;
+export default CardItem
+
+const styles = StyleSheet.create ({
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+  },
+  title: {
+    fontSize: 32,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 75,
+  },
+  details: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  }
+})
