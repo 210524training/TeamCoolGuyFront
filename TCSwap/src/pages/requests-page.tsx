@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import DATA from '../../temp-card-data.json'
-import Item from '../components/StoreCardItem'
+import Item from '../components/CardItem'
 
 
 
-const ManageStore: React.FC<unknown> = () => {
+const RequestsPage: React.FC<unknown> = () => {
 
   const [selectedId, setSelectedId] = React.useState(null);
 
@@ -71,7 +71,7 @@ const ManageStore: React.FC<unknown> = () => {
   );
 }
 
-export default ManageStore;
+export default RequestsPage;
 
 const styles = StyleSheet.create({
   button: {
