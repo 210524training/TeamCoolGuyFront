@@ -1,10 +1,9 @@
-import { createStackNavigator } from '@react-navigation/stack';
+
 import * as React from 'react';
-import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Alert, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import StoreCardItem from '../components/Store-Card-Item'
-import StoreOwnerCardDetails from './store-owner-card-details-page';
 
 type Props = {
   item: any
@@ -77,24 +76,6 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
 export default ManageStore;
 
 const styles = StyleSheet.create({
-  button: {
-    margin: 5,
-    width: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: 'black',
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
   controls: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
