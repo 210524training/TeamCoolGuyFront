@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import CardItem from '../components/PlayerCardItem';
+import CardItem from '../components/CardItem';
 import Collection from '../components/collection';
 
 

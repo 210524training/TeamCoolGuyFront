@@ -13,7 +13,7 @@ const rightButtons = [
   <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
 ];
 
-const CardItem: React.FC<Props> = ({ item, onPress, backgroundColor, textColor }) => (
+const PlayerCardItem: React.FC<Props> = ({ item, onPress, backgroundColor, textColor }) => (
 
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Image
@@ -29,7 +29,7 @@ const CardItem: React.FC<Props> = ({ item, onPress, backgroundColor, textColor }
   
 );
 
-export default CardItem
+export default PlayerCardItem
 
 const styles = StyleSheet.create ({
   item: {
