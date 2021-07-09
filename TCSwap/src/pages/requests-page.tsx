@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import DATA from '../../temp-card-data.json'
-import Item from '../components/CardItem'
+import Item from '../components/PlayerCardItem'
 
 
 
