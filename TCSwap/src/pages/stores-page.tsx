@@ -14,4 +14,4 @@ const ViewStoresPage: React.FC<unknown> = () => {
   );
 }
 
-export default ViewStoresPage;ViewStoresPage
+export default ViewStoresPage;
