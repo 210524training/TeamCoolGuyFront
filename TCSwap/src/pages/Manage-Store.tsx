@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Alert, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
+import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import StoreCardItem from '../components/StoreCardItem'
 
@@ -55,9 +56,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   
   return (
     <>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Store Name</Text>
-      </View>
+      <Banner text={'Store name'} />
       <View style={styles.controls}>
         <ButtonBlackWhite text={'Add Stock'} functionality={() => handleAddCard()} />
         <ButtonBlackWhite text={'Set Featured'} functionality={() => handleSetFeaturedCard()} />
@@ -82,16 +81,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-  header: {
-    textAlign: 'center',
-    backgroundColor: '#731F17',
-    paddingTop: 20
-  },
-  headerText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    paddingBottom: 20,
-    color: '#D98E04',
-    textAlign: 'center'
-  }
 });
