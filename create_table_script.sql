@@ -5,6 +5,7 @@ CREATE TYPE userRole AS ENUM ('player', 'store owner');
 
 CREATE TABLE TCSwap_user (
 	username VARCHAR(255) PRIMARY KEY,
+	pass VARCHAR(255) NOT NULL,
 	first_name VARCHAR(255) NOT NULL CHECK (LENGTH(first_name) > 0),
 	last_name VARCHAR(255) NOT NULL CHECK (LENGTH(last_name) > 0),
 	role userRole NOT NULL DEFAULT 'player'  
