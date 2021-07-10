@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import CardDetailItem from '../components/CardDetailItem';
-import Collection from '../components/collection';
+import Collection from '../components/Collection';
 
 
 const MyCollectionPage: React.FC<unknown> = () => {
