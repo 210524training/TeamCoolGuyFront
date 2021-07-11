@@ -9,8 +9,8 @@ const ManageStackScreen = () => {
   return (
     <>
     <ManageCardNavigator.Navigator>
-      <ManageCardNavigator.Screen name="Manage-Store" component={ManageStore} />
-      <ManageCardNavigator.Screen name="Card-Details" component={StoreOwnerCardDetails} />
+      <ManageCardNavigator.Screen name="Manage Store" component={ManageStore} />
+      <ManageCardNavigator.Screen name="Card Details" component={StoreOwnerCardDetails} />
     </ManageCardNavigator.Navigator>
     </>
     

@@ -7,12 +7,17 @@ export type cardImage = {
     image_url_small: string,
 }
 
+export type cardPrice = {
+    ebay_price: string,
+}
+
 export default interface YGOCard{
     name: string,
     type: string, // example values are Normal Monster, Effect Monster, Synchro Monster, Spell Card or Trap Card
     desc: string,
     race: string, // values like Spellcaster, Warrior, Insect, Field, Equip, Counter
     card_images: cardImage[],
+    card_prices?: cardPrice[]
 }
 
 export interface MonsterCard extends YGOCard{
