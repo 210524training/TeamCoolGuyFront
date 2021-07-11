@@ -11,11 +11,16 @@ CREATE TABLE TCSwap_user (
 	role userRole NOT NULL DEFAULT 'player'  
 );
 
+
+DROP TYPE IF EXISTS offerStatus CASCADE;
+CREATE TYPE offerStatus AS ENUM ('accepted', 'rejected', 'pending');
+
 DROP TABLE IF EXISTS offer CASCADE;
 CREATE TABLE offer (
 	id SERIAL PRIMARY KEY,
 	requestor VARCHAR(255) NOT NULL CHECK (LENGTH(requestor) > 0),
 	decider VARCHAR(255) NOT NULL CHECK (LENGTH(decider) > 0),
+	status offerStatus DEFAULT 'pending',
 	CONSTRAINT requestor_con
       FOREIGN KEY(requestor) 
 	  REFERENCES TCSwap_user(username)
