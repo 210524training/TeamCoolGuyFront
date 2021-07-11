@@ -178,7 +178,7 @@ CREATE PROCEDURE removeFromOffer(
 )
 LANGUAGE SQL
 AS $$
-	DELETE FROM offer
+	DELETE FROM offer_item
 	WHERE id = offer_item_id_in;
 $$;
 
