@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 import { YGOCARD_HEIGHT, YGOCARD_WIDTH } from '../../models/YGOCard';
 

@@ -31,7 +31,6 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     (async() => {
       if(cardList.length > 0) {
-        console.log(cardList)
         const card = await getCardByName(cardList[0]);
         const condensedCard = {
           id: card.data[0].id,
@@ -58,7 +57,6 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
       if(cardList.length > 0) {
         cardList.forEach(async (cardName) => {
           if(cardName) {
-            console.log(cardName)
             const card = await getCardByName(cardName);
             const condensedCard = {
               id: card.data[0].id,

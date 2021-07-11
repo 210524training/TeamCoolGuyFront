@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
-import YGOCard, { MonsterCard, YGOCARD_HEIGHT, YGOCARD_WIDTH } from '../../models/YGOCard';
+import { Text, View, Image } from 'react-native';
+import YGOCard, { MonsterCard } from '../../models/YGOCard';
 import HorizontialRuleWithText from '../HorizontialRuleWithText';
 import styles from './CardDetailItem.styles';
 

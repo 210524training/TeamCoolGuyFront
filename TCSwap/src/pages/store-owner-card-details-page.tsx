@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, Text, StyleSheet, View } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
-import CardDetailItemReusable from '../components/CardDetailItem(reusable)/CardDetailItem.reuseable';
+import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 
 type Props = {
   route: any,
@@ -10,10 +10,6 @@ type Props = {
 
 const StoreOwnerCardDetails: React.FC<Props>= ({ route }) => {
   const { card } = route.params;
-
-  console.log(card);
-
-  
 
   const handleSetFeaturedCard = () => {
     // TODO: move to card detailed page

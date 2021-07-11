@@ -8,8 +8,6 @@ type Props = {
 
 const StoreCardItem: React.FC<Props> = ({ card, onPress }) => {
 
-  console.log(card.name, card.card_prices[0].ebay_price, card.card_images[0].image_url_small)
-
   return (
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
       <Image
