@@ -8,7 +8,6 @@ type Props = {
 }
 
 const ButtonBlackWhite: React.FC<Props> =({ functionality, text }) => {
-  console.log('text',text)
   return (
     <Pressable  style={styles.button} onPress={functionality}>
       <Text style={styles.text}>{text}</Text>
