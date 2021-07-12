@@ -14,7 +14,13 @@ const CardDetailItemReusable: React.FC<props> = ({ data }) => {
   const [cardDetails, setCardDetails] = useState<YGOCard>();
 
   useEffect(() => {
+<<<<<<< HEAD
     setCardDetails(data);
+=======
+    (async () => {
+      setCardDetails(data);
+    })();
+>>>>>>> 51ec33f... Refactored
   }, [data]);
 
   return (
@@ -24,27 +30,27 @@ const CardDetailItemReusable: React.FC<props> = ({ data }) => {
         <Image
           style={styles.cardImage}
           source={{
-            uri: cardDetails && cardDetails.card_images[0].image_url,
+            uri: data && data.card_images[0].image_url,
           }}
         />
         <HorizontialRuleWithText text='NAME' />
-        <Text>{cardDetails && cardDetails.name}</Text>
-        <HorizontialRuleWithText text='CARD TYPE' />
-        <Text>{cardDetails && cardDetails.type}</Text>
+        <Text>{data && data.name}</Text>
+        <HorizontialRuleWithText text='CARD TYPE' />                             
+        <Text>{data && data.type}</Text>
         <HorizontialRuleWithText text='TYPE' />
-        <Text>{cardDetails && cardDetails.race}</Text>
+        <Text>{data && data.race}</Text>
         {
-          (cardDetails && cardDetails.type.includes('Monster')) ? 
+          (data && data.type.includes('Monster')) ? 
             <>
             <HorizontialRuleWithText text='COMBAT' />
-              <Text>Attack: {(cardDetails as MonsterCard).atk} / Defense: {(cardDetails as MonsterCard).def}</Text>
-              <Text>Level: {(cardDetails as MonsterCard).level} / Attribute: {(cardDetails as MonsterCard).attribute}</Text>
+              <Text>Attack: {(data as MonsterCard).atk} / Defense: {(data as MonsterCard).def}</Text>
+              <Text>Level: {(data as MonsterCard).level} / Attribute: {(data as MonsterCard).attribute}</Text>
             </> 
             : 
             <></>
         }
         <HorizontialRuleWithText text='DESCRIPTION' />
-        <Text>{cardDetails && cardDetails.desc}</Text>
+        <Text>{data && data.desc}</Text>
       </View >
     </>
   );
