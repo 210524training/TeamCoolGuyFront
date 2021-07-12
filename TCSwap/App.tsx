@@ -10,6 +10,8 @@ import PlayerPage from './src/pages/player-page';
 import StoreOwnerPage from './src/pages/store-owner-page';
 import store from './src/redux/store';
 import { Provider } from 'react-redux';
+import ViewStoresPage from './src/pages/stores-page';
+import Collection from './src/components/Collection';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -21,6 +23,7 @@ export default function App() {
           <Stack.Screen name="Players" component={PlayerPage} />
           <Stack.Screen name="Store Owners" component={StoreOwnerPage} />
           <Stack.Screen name="Register" component={RegisterPage} />
+         
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
