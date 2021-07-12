@@ -14,7 +14,7 @@ const Requests: React.FC<Props> = ({ navigation }) => {
   const [selectedId, setSelectedId] = React.useState(null);
 
   const handleOnPress = () => {
-    navigation.navigate('Fake Card Info');
+    navigation.navigate('Details');
   }
 
   const renderItem = ({ item }) => {

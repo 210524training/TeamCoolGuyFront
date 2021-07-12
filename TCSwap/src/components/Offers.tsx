@@ -14,7 +14,7 @@ type Props = {
 const Offers: React.FC<Props> = ({ navigation }) => {
 
   const handleOnPress = () => {
-    navigation.navigate('Fake Card Info');
+    navigation.navigate('Details');
   }
 
   const renderItem = ({ item }) => {
