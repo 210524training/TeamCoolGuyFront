@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Pressable, Text, StyleSheet, View, Image } from 'react-native';
 import { getCardCollection } from '../remote/Backend.api';
+import Banner from './Banner';
 
 type props = {
     collection: Array<string>,
@@ -13,24 +14,58 @@ const Collection: React.FC<props> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const collection = await getCardCollection();
-      setCardCollection(collection);
+      const collectionStrings = await getCardCollection();
+      setCardCollection(collectionStrings);
     })();
   }, []);
 
   const buttons: JSX.Element[] = cardCollection.map<JSX.Element>((cardName) => {
     return (
-    <Button title={cardName}
-            onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }>
-      {cardName}
-    </Button>)
+    <Pressable onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }
+               style = {styles.item}
+               key = {cardName}>
+      <View style={styles.details} key = {cardName}>
+        <Text style={[styles.title]} key = {cardName}>
+          {cardName}
+        </Text>
+      </View>
+    </Pressable>)
   })
 
   return (
     <>
+      <Banner text = 'Player Name'/>
       {buttons}
     </>
   );
 }
+
+const styles = StyleSheet.create ({
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    backgroundColor: "#d8d9d0",
+  },
+  title: {
+    fontSize: 26,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 75,
+  },
+  details: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  price: {
+    fontSize: 16,
+  }
+})
 
 export default Collection;

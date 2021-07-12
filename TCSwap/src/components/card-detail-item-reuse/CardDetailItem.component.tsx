@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, Image } from 'react-native';
 import YGOCard, { MonsterCard } from '../../models/YGOCard';
 import HorizontialRuleWithText from '../HorizontialRuleWithText';
+import StoreOptions from '../StoreOptions';
 import styles from './CardDetailItem.styles';
 
 type props = {
@@ -13,25 +14,11 @@ const CardDetailItemReusable: React.FC<props> = ({ data }) => {
   const [cardDetails, setCardDetails] = useState<YGOCard>();
 
   useEffect(() => {
-    (async () => {
-      setCardDetails(data);
-    })();
-  }, []);
+    setCardDetails(data);
+  }, [data]);
 
   return (
     <>
-      <View style={styles.container}>
-        <Text style={{fontWeight: '700'}}>Store Options</Text>
-        <HorizontialRuleWithText text='PRICE' />
-        {
-          cardDetails?.card_prices ? 
-          <Text>{cardDetails && cardDetails?.card_prices[0].ebay_price }</Text> :
-          <Text>None Listed</Text>
-        }
-        <HorizontialRuleWithText text='Featured' />
-        <Text>Not Implemented Yet...</Text>
-      </View>
-
       <View style={styles.container}>
       <Text style={{fontWeight: '700'}}>Card Info</Text>
         <Image
