@@ -20,18 +20,7 @@ const CardDetailItemReusable: React.FC<props> = ({ data }) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <Text style={{fontWeight: '700'}}>Store Options</Text>
-        <HorizontialRuleWithText text='PRICE' />
-        {
-          cardDetails?.card_prices ? 
-          <Text>{cardDetails && cardDetails?.card_prices[0].ebay_price }</Text> :
-          <Text>None Listed</Text>
-        }
-        <HorizontialRuleWithText text='Featured' />
-        <Text>Not Implemented Yet...</Text>
-      </View>
-
+      
       <View style={styles.container}>
       <Text style={{fontWeight: '700'}}>Card Info</Text>
         <Image

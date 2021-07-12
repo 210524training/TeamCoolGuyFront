@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, StyleSheet, View } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
+import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
+import YGOCard from '../models/YGOCard';
 
 type Props = {
   route: any,
@@ -10,6 +12,14 @@ type Props = {
 
 const StoreOwnerCardDetails: React.FC<Props>= ({ route }) => {
   const { card } = route.params;
+
+  const [cardDetails, setCardDetails] = useState<YGOCard>();
+
+  useEffect(() => {
+    (async () => {
+      setCardDetails(card);
+    })();
+  }, []);
 
   const handleSetFeaturedCard = () => {
     // TODO: move to card detailed page
@@ -31,6 +41,18 @@ const StoreOwnerCardDetails: React.FC<Props>= ({ route }) => {
         <ButtonBlackWhite text={'Adjust Price'} functionality={() => handleAdjustPrice()} />
         <ButtonBlackWhite text={'Remove'} functionality={() => handleRemove()} />
       </View>
+      <View style={styles.storeOptions}>
+        <Text style={{fontWeight: '700'}}>Store Options</Text>
+        <HorizontialRuleWithText text='PRICE' />
+        {
+          cardDetails?.card_prices ? 
+          <Text>{cardDetails && cardDetails?.card_prices[0].ebay_price }</Text> :
+          <Text>None Listed</Text>
+        }
+        <HorizontialRuleWithText text='Featured' />
+        <Text>Not Implemented Yet...</Text>
+      </View>
+
       <CardDetailItemReusable data={card} />
     </ScrollView>
   )
@@ -40,7 +62,17 @@ export default StoreOwnerCardDetails;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  },
+  storeOptions: {
+    justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    alignItems: 'center',
+    borderRadius: 4,
+    borderWidth: 1,
+    backgroundColor: "#d8d9d0",
   },
   controls: {
     flexDirection: 'row',
