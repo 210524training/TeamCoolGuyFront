@@ -21,6 +21,7 @@ const PlayerPage: React.FC<unknown> = () => {
         <Tab.Screen name="My Collection" component={MyCollectionPage} />
         <Tab.Screen name="Trades" component={TradePage} />
         <Tab.Screen name="View Stores" component={ViewStoresPage} />
+        
       </Tab.Navigator>
     </>
   );
