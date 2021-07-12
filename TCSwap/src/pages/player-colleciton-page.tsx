@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import CardDetailItem from '../components/CardDetailItem';
 import Collection from '../components/Collection';
+import ScrollableCardDisplay from '../components/ScrollableCardDisplay';
 
 
 const MyCollectionPage: React.FC<unknown> = () => {
@@ -11,7 +11,7 @@ const MyCollectionPage: React.FC<unknown> = () => {
   return (
     <CollectionStack.Navigator initialRouteName="Collection">
       <CollectionStack.Screen name="Collection" component={Collection} />
-      <CollectionStack.Screen name="Card Info" component={CardDetailItem} />
+      <CollectionStack.Screen name="Card Info" component={ScrollableCardDisplay} />
     </CollectionStack.Navigator>
   );
 }

@@ -3,7 +3,7 @@ import { ScrollView, Text, StyleSheet, View } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
-import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
+import StoreOptions from '../components/StoreOptions';
 import YGOCard from '../models/YGOCard';
 
 type Props = {
@@ -41,18 +41,7 @@ const StoreOwnerCardDetails: React.FC<Props>= ({ route }) => {
         <ButtonBlackWhite text={'Adjust Price'} functionality={() => handleAdjustPrice()} />
         <ButtonBlackWhite text={'Remove'} functionality={() => handleRemove()} />
       </View>
-      <View style={styles.storeOptions}>
-        <Text style={{fontWeight: '700'}}>Store Options</Text>
-        <HorizontialRuleWithText text='PRICE' />
-        {
-          cardDetails?.card_prices ? 
-          <Text>{cardDetails && cardDetails?.card_prices[0].ebay_price }</Text> :
-          <Text>None Listed</Text>
-        }
-        <HorizontialRuleWithText text='Featured' />
-        <Text>Not Implemented Yet...</Text>
-      </View>
-
+      <StoreOptions data={card} />
       <CardDetailItemReusable data={card} />
     </ScrollView>
   )

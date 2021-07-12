@@ -85,7 +85,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   }
 
   // FIX: Currently renders array with one item 'testCard' but will not render with array with multiple items 'inventory'
-  const mapCardsToStoreCardItem = testCard.map((card, index) => {
+  const mapCardsToStoreCardItem = inventory.map((card, index) => {
     return (
       <StoreCardItem
         card={card}
