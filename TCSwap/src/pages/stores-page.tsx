@@ -4,7 +4,8 @@ import { Button, StyleSheet, TextInput, Text, View, FlatList, TouchableOpacity }
 /* import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice'; */
 import { useNavigation } from '@react-navigation/native';
-// import { styles } from '../components/button-black-white/ButtonBlackWhite.styles';
+import styles from '../components/card-detail-item-reuse/CardDetailItem.styles';
+import Banner from '../components/Banner';
 
 type Props = { navigation: any }
 
@@ -25,14 +26,14 @@ const ViewStoresPage: React.FC<Props> = ({ navigation }) => {
 
   return (
 
-    <View style={styles.storesListStyle}>
-
+    <View /* style={styles.storesListStyle} */>
+      <Banner text = "Stores"/>
       <FlatList
         keyExtractor={(item) => item.id}
         data={stores}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => pressHandler(item.id)}>
-            <Text style={styles.storeStyle}>{item.name}</Text>
+            <Text style={[adFontes.storeText, styles.container]}>{item.name}</Text>
           </TouchableOpacity>
         )}
       />
@@ -41,21 +42,10 @@ const ViewStoresPage: React.FC<Props> = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
-  storesListStyle: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 30,
-    paddingHorizontal: 20,
-  },
-
-  storeStyle: {
-    padding: 30,
-    backgroundColor: 'orange',
+const adFontes = StyleSheet.create({
+  storeText: {
     fontSize: 20,
-    marginHorizontal: 10,
-    marginTop: 20,
-
+    fontWeight: "500",
   }
 });
 

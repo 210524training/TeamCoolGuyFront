@@ -6,6 +6,7 @@ import RequestsPage from './requests-page';
 import Messenger from './Messenger';
 import { Ionicons } from '@expo/vector-icons';
 
+
 const TradePage: React.FC<unknown> = () => {
 
   const Tab = createBottomTabNavigator();
@@ -13,23 +14,9 @@ const TradePage: React.FC<unknown> = () => {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Store Name</Text>
+        {/* <Text style={styles.headerText}>Store Name</Text> */}
       </View>
       <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName: any;
-
-          if (route.name === 'Manage') {
-            iconName = 'hammer';
-          } else if (route.name === 'Messenges') {
-            iconName = 'mail';
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
       tabBarOptions={{
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',

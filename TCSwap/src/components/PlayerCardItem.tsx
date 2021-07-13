@@ -4,30 +4,26 @@ import { TouchableOpacity, StyleSheet, Text, Image, View, TouchableHighlight } f
 type Props = {
   item: any,
   onPress: any,
-  backgroundColor: any,
-  textColor: any,
+  navigation: any
 }
 
-const rightButtons = [
-  <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
-  <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-];
+const PlayerCardItem: React.FC<Props> = ({ item, onPress }) => {
 
-const PlayerCardItem: React.FC<Props> = ({ item, onPress, backgroundColor, textColor }) => (
-
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Image
+  return (
+    <TouchableOpacity onPress={onPress} style={[styles.item]}>
+      <Image
         style={styles.tinyLogo}
         source={{
           uri: 'https://storage.googleapis.com/ygoprodeck.com/pics_small/6983839.jpg',
         }}
       />
       <View style={styles.details}>
-        <Text style={[styles.title, textColor]}>{item.name}</Text>
+        <Text style={[styles.title]}>{item.name}</Text>
       </View>
-  </TouchableOpacity>
+    </TouchableOpacity>
+  )
   
-);
+};
 
 export default PlayerCardItem
 
