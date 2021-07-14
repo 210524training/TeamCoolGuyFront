@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text, StyleSheet, View, Image, ScrollView } from 'react-native';
-<<<<<<< HEAD
+import { Pressable, Text, StyleSheet, View, ScrollView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { CollectionState, getCollectionAsync, selectCollection } from '../redux/slices/collection.slice';
-=======
->>>>>>> 234eee08ce1895986597acdc36caab46f3517367
-import { getCardCollection } from '../remote/Backend.api';
+import { CollectionState, getCollectionAsync, selectCollection } from "../redux/slices/collection.slice";
 import Banner from './Banner';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 

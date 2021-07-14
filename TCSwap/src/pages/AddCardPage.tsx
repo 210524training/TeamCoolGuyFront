@@ -5,13 +5,9 @@ import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite'
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
 import YGOCard from '../models/YGOCard';
-<<<<<<< HEAD
 import { useAppDispatch } from '../redux';
 import { addCardToState } from '../redux/slices/collection.slice';
 import { getCardByFuzzyName } from '../remote/apis/YGOapi';
-=======
-import { getCardByFuzzyName, getCardByName } from '../remote/apis/YGOapi';
->>>>>>> 234eee08ce1895986597acdc36caab46f3517367
 import { addCardToCollection } from '../remote/Backend.api';
 
 type props = {
@@ -20,11 +16,8 @@ type props = {
 
 const AddCardPage: React.FC<props> = (props) => {
 
-<<<<<<< HEAD
 	const dispatch = useAppDispatch();
 
-=======
->>>>>>> 234eee08ce1895986597acdc36caab46f3517367
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [cardData, setCardData] = useState<YGOCard[]>();
 	const [searchIndex, setSearchIndex] = useState<number>(0);
@@ -42,10 +35,7 @@ const AddCardPage: React.FC<props> = (props) => {
 	const addCard = async () => {
 		if(cardData) {
 			await addCardToCollection(cardData[searchIndex].name);
-<<<<<<< HEAD
 			dispatch(addCardToState(cardData[searchIndex].name));
-=======
->>>>>>> 234eee08ce1895986597acdc36caab46f3517367
 			props.navigation.navigate('Collection');
 		}
 	}
