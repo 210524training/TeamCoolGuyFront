@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
+let tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 
 const backendClient = axios.create({
   baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev/',
@@ -11,7 +11,7 @@ const backendClient = axios.create({
 });
 
 export const addCardToCollection = async (cardID: string): Promise<void> => {
-  tmpCollection.push(cardID);
+  tmpCollection = tmpCollection.concat([cardID]);//for some reason push stop working ???
 }
 
 export const getCardCollection = async (): Promise<string[]> => {

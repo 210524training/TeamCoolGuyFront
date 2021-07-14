@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, StyleSheet, View, Image, ScrollView } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { CollectionState, getCollectionAsync, selectCollection } from '../redux/slices/collection.slice';
 import { getCardCollection } from '../remote/Backend.api';
 import Banner from './Banner';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
@@ -11,16 +13,18 @@ type props = {
 
 const Collection: React.FC<props> = (props) => {
 
+  const dispatch = useAppDispatch();
+  const collection = useAppSelector<CollectionState>(selectCollection) || [];
+
   const [cardCollection, setCardCollection] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
-      const collectionStrings = await getCardCollection();
-      setCardCollection(collectionStrings);
+      await dispatch(getCollectionAsync({}));
     })();
   }, []);
 
-  const buttons: JSX.Element[] = cardCollection.map<JSX.Element>((cardName) => {
+  const buttons: JSX.Element[] = collection.map<JSX.Element>((cardName) => {
     return (
     <Pressable onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }
                style = {styles.item}

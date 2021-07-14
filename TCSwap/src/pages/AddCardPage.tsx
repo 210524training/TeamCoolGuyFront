@@ -5,7 +5,9 @@ import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite'
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
 import YGOCard from '../models/YGOCard';
-import { getCardByFuzzyName, getCardByName } from '../remote/apis/YGOapi';
+import { useAppDispatch } from '../redux';
+import { addCardToState } from '../redux/slices/collection.slice';
+import { getCardByFuzzyName } from '../remote/apis/YGOapi';
 import { addCardToCollection } from '../remote/Backend.api';
 
 type props = {
@@ -13,6 +15,8 @@ type props = {
 }
 
 const AddCardPage: React.FC<props> = (props) => {
+
+	const dispatch = useAppDispatch();
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [cardData, setCardData] = useState<YGOCard[]>();
@@ -31,6 +35,7 @@ const AddCardPage: React.FC<props> = (props) => {
 	const addCard = async () => {
 		if(cardData) {
 			await addCardToCollection(cardData[searchIndex].name);
+			dispatch(addCardToState(cardData[searchIndex].name));
 			props.navigation.navigate('Collection');
 		}
 	}
