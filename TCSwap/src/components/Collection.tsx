@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, Text, StyleSheet, View, Image } from 'react-native';
+import { Pressable, Text, StyleSheet, View, Image, ScrollView } from 'react-native';
 import { getCardCollection } from '../remote/Backend.api';
 import Banner from './Banner';
+import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 
 type props = {
     collection: Array<string>,
@@ -34,8 +35,13 @@ const Collection: React.FC<props> = (props) => {
 
   return (
     <>
-      <Banner text = 'Player Name'/>
-      {buttons}
+      <ScrollView style={styles.container}>
+        <Banner text = 'Player Name'/>
+        {buttons}
+        <View style={styles.controls}>
+          <ButtonBlackWhite text='Add a card' functionality={() => {props.navigation.navigate('Add Card Page')}}/>
+        </View>
+      </ScrollView>
     </>
   );
 }
@@ -63,9 +69,13 @@ const styles = StyleSheet.create ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
-  price: {
-    fontSize: 16,
-  }
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  container: {
+    flex: 1
+  },
 })
 
 export default Collection;

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
+
 const backendClient = axios.create({
   baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev/',
   headers: {
@@ -8,8 +10,12 @@ const backendClient = axios.create({
   withCredentials: false,
 });
 
+export const addCardToCollection = async (cardID: string): Promise<void> => {
+  tmpCollection.push(cardID);
+}
+
 export const getCardCollection = async (): Promise<string[]> => {
-    return ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
+    return tmpCollection;
 }
 
 export const getCardFeatured = async (): Promise<string[]> => {
