@@ -1,10 +1,12 @@
 import { AnyAction } from 'redux';
 import { configureStore, ThunkAction } from '@reduxjs/toolkit';
 import userReducer from './slices/user.slice';
+import collectionReducer from './slices/collection.slice';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
+    collection: collectionReducer,
   }
 })
 

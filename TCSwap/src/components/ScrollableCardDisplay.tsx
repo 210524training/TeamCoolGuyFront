@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, StyleSheet, ScrollView } from 'react-native';
-import YGOCard, { MonsterCard } from '../models/YGOCard';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import YGOCard from '../models/YGOCard';
 import { getCardByName } from '../remote/apis/YGOapi';
 import Banner from './Banner';
 import CardDetailItemReusable from './card-detail-item-reuse/CardDetailItem.component';
@@ -25,8 +25,12 @@ const ScrollableCardDisplay: React.FC<props> = ({route}) => {
   return (
     <ScrollView style={scrollStyle.container}>
       <Banner text={(cardDetails && cardDetails.name) || ''} />
-      <CardDetailItemReusable data={cardDetails}/>
-
+      {
+        cardDetails ?
+          <CardDetailItemReusable data={cardDetails}/>
+          :
+          (<></>)
+      }
     </ScrollView>
   );
 }
