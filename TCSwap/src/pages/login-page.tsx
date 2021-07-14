@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../redux';
 import { loginAsync, logout, selectUser, UserState } from '../redux/slices/user.slice'; 
 import { useNavigation } from '@react-navigation/native';
 import CustButton1 from '../components/CustButton1';
+import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 
 type Props = { navigation: any }
 
@@ -14,6 +15,8 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
   const user = useAppSelector<UserState>(selectUser);
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  const [testGreeting, SetTestGreeting] = useState<any>();
 
   const dispatch = useAppDispatch();
 
@@ -85,6 +88,7 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
      
         <CustButton1 onPress={handleLogin} title="Sign in"/>
       </View>
+
     </>
         
   );
