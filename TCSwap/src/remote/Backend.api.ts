@@ -11,3 +11,11 @@ const backendClient = axios.create({
 export const getCardCollection = async (): Promise<string[]> => {
     return ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 }
+
+export const getCardFeatured = async (): Promise<string[]> => {
+  return ['Dark Magician'];
+}
+
+export const postCardFeatured = async (): Promise<boolean> => {
+  return true;
+}

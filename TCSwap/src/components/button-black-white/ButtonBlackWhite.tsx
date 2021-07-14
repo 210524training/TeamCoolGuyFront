@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, TouchableOpacity } from 'react-native';
 import { styles } from './ButtonBlackWhite.styles'
 
 type Props = {
@@ -9,9 +9,9 @@ type Props = {
 
 const ButtonBlackWhite: React.FC<Props> =({ functionality, text }) => {
   return (
-    <Pressable  style={styles.button} onPress={functionality}>
+    <TouchableOpacity  style={styles.button} onPress={functionality}>
       <Text style={styles.text}>{text}</Text>
-    </Pressable>
+    </TouchableOpacity>
   )  
 }
 

@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Alert, FlatList, Button, ScrollView, SafeAreaView } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
+import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import StoreCardItem from '../components/StoreCardItem'
 import YGOCard from '../models/YGOCard';
 import { getCardByName } from '../remote/apis/YGOapi';
-import { getCardCollection } from '../remote/Backend.api';
+import { getCardCollection, getCardFeatured } from '../remote/Backend.api';
 
 type Props = {
   item: any
@@ -14,12 +15,41 @@ type Props = {
 }
 
 const ManageStore: React.FC<Props> = ({ navigation }) => {
-
-  const [inventory, setInventory ] = useState<YGOCard[]>([]);
-  const [cardList, setCardList] = useState<string[]>([]);
-  const [testCard, setTestCard] = useState<YGOCard[]>([])
-
+ 
+  //TODO: Change to receive input from DB
+  const [featuredCard, setFeaturedCard] = useState<string[]>([]);
+  const [populatedFeaturedCard, setPopulatedFeaturedCard]  = useState<YGOCard[]>([]);
   
+  const [cardList, setCardList] = useState<string[]>([]);
+  const [populatedCards, setPopulatedCards]  = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const cards = await getCardFeatured();
+      setFeaturedCard(cards); 
+    })()
+  },[])
+
+  useEffect(() => {
+    (async() => {
+      const YGOCard = await getCardByName(featuredCard[0]);
+      const condensedCard = {
+        id: YGOCard.data[0].id,
+        name: YGOCard.data[0].name,
+        type: YGOCard.data[0].type,
+        desc: YGOCard.data[0].desc,
+        atk: YGOCard.data[0].atk,
+        def: YGOCard.data[0].def,
+        level: YGOCard.data[0].level,
+        race: YGOCard.data[0].race,
+        attribute: YGOCard.data[0].attribute,
+        card_images: YGOCard.data[0].card_images,
+        card_prices: YGOCard.data[0].card_prices,
+      }
+      setPopulatedFeaturedCard([condensedCard])
+    }
+  )()
+  },[featuredCard])
 
   useEffect(() => {
     (async () => {
@@ -29,82 +59,47 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   },[])
 
   useEffect(() => {
-    (async() => {
-      if(cardList.length > 0) {
-        const card = await getCardByName(cardList[0]);
-        const condensedCard = {
-          id: card.data[0].id,
-          name: card.data[0].name,
-          type: card.data[0].type,
-          desc: card.data[0].desc,
-          atk: card.data[0].atk,
-          def: card.data[0].def,
-          level: card.data[0].level,
-          race: card.data[0].race,
-          attribute: card.data[0].attribute,
-          card_images: card.data[0].card_images,
-          card_prices: card.data[0].card_prices,
-        }
-        setTestCard([condensedCard])
-      }
-      
-     })()
-   }, [cardList])
+    setPopulatedCards(cardList)
+  },[cardList])
 
-  useEffect(() => {
-    (async () => {
-      let temp: YGOCard[] = []
-      if(cardList.length > 0) {
-        cardList.forEach(async (cardName) => {
-          if(cardName) {
-            const card = await getCardByName(cardName);
-            const condensedCard = {
-              id: card.data[0].id,
-              name: card.data[0].name,
-              type: card.data[0].type,
-              desc: card.data[0].desc,
-              atk: card.data[0].atk,
-              def: card.data[0].def,
-              level: card.data[0].level,
-              race: card.data[0].race,
-              attribute: card.data[0].attribute,
-              card_images: card.data[0].card_images,
-              card_prices: card.data[0].card_prices,
-            }
-            temp.push(condensedCard)
-          }
-        })
-      }
-      setInventory(temp)
-      
-    })();
-  }, [cardList]);
 
   const handleAddCard = () => {
-    // TODO:
+    navigation.navigate('Add Stock')
   }
 
-  // FIX: Currently renders array with one item 'testCard' but will not render with array with multiple items 'inventory'
-  const mapCardsToStoreCardItem = inventory.map((card, index) => {
+  const renderItem = ({ item }) => {
     return (
       <StoreCardItem
-        card={card}
-        onPress={() => navigation.navigate('Card Details', {card})}
-        key={index}
+        cardName={item}
+        onPress={() => navigation.navigate('Card Details', { navigation, item, setFeaturedCard })}
       />
     )
-  })
+  }
       
   return (
-    <View style={{flex: 1}}>
+    <ScrollView style={{flex: 1}}>
       <Banner text={'Store name'} />
       <View style={styles.controls}>
         <ButtonBlackWhite text={'Add Stock'} functionality={() => handleAddCard()} />
       </View>
-      <View style={{flex: 1}}>
-        {mapCardsToStoreCardItem}
+      {
+        populatedFeaturedCard ?
+      <View>
+        <Text style={styles.featured}>Featured Card</Text>
+        <CardDetailItemReusable data={populatedFeaturedCard[0]} />
       </View>
-    </View>
+        :
+        <Text style={styles.featured}>Set a featured card to display here!</Text>
+      }
+      <View style={{flex: 1}}>
+        <Text style={styles.featured}>Inventory</Text>
+        <FlatList
+        data={populatedCards}
+        renderItem={renderItem}
+        keyExtractor={item => item}
+      />
+      </View>
+    </ScrollView>
     
   );
 }
@@ -116,4 +111,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
+  featured: {
+    fontSize: 24,
+    fontWeight: '500',
+    alignSelf: 'center',
+    marginTop: 30,
+    borderBottomWidth: 4,
+  }
 });

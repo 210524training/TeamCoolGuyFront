@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, View, Image } from 'react-native';
 import YGOCard, { MonsterCard } from '../../models/YGOCard';
 import HorizontialRuleWithText from '../HorizontialRuleWithText';
 import styles from './CardDetailItem.styles';
 
 type props = {
-    data: any;
+    data: YGOCard;
 }
 
 const CardDetailItemReusable: React.FC<props> = ({ data }) => {
