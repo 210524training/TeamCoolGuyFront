@@ -15,3 +15,9 @@ export const getCardByName = async (name: string): Promise<any> => {
     const response = await ygoClient.get<unknown>(url);
     return response.data;
 }
+
+export const getCardByFuzzyName = async (name: string): Promise<any> => {
+  const url = '?fname=' + name;
+  const response = await ygoClient.get<unknown>(url);
+  return response.data;
+}

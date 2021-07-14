@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
+
 const backendClient = axios.create({
   baseURL: 'http://localhost:4000',
   headers: {
@@ -8,8 +10,12 @@ const backendClient = axios.create({
   withCredentials: true,
 });
 
+export const addCardToCollection = async (cardID: string): Promise<void> => {
+  tmpCollection.push(cardID);
+}
+
 export const getCardCollection = async (): Promise<string[]> => {
-    return ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
+    return tmpCollection;
 }
 
 export const getCardFeatured = async (): Promise<string[]> => {
