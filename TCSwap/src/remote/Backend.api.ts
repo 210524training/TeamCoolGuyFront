@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const backendClient = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev/',
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 export const getCardCollection = async (): Promise<string[]> => {
@@ -18,4 +18,11 @@ export const getCardFeatured = async (): Promise<string[]> => {
 
 export const postCardFeatured = async (): Promise<boolean> => {
   return true;
+}
+
+export const testPostHelloFunc = async (name: string): Promise<string> => {
+  const response = await backendClient.post<any>('hello', {
+    name
+  });
+  return response.data
 }
