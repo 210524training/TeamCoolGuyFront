@@ -14,8 +14,13 @@ export const addCardToCollection = async (cardID: string): Promise<void> => {
   tmpCollection = tmpCollection.concat([cardID]);//for some reason push stop working ???
 }
 
-export const getCardCollection = async (): Promise<string[]> => {
-    return tmpCollection;
+export const getCardCollection = async (username: string): Promise<string[]> => {
+    const collection = await backendClient.get<any>('collections', {
+      params: {
+        username,
+      }
+    })
+    return collection.data as string[];
 }
 
 export const getCardFeatured = async (): Promise<string[]> => {
