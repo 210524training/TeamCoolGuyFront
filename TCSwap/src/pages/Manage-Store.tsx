@@ -53,7 +53,8 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const cards = await getCardCollection();
+      // TODO: get username from redux state for argument
+      const cards = await getCardCollection('bob99');
       setCardList(cards); 
     })()
   },[])
