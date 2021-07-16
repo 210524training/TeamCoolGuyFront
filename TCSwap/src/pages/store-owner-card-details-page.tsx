@@ -6,11 +6,11 @@ import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDet
 import StoreOptions from '../components/StoreOptions';
 import YGOCard from '../models/YGOCard';
 import { getCardByName } from '../remote/apis/YGOapi';
+import { postFeaturedCard } from '../remote/Backend.api';
 
 type Props = {
   route: any,
   navigation: any,
-  setFeaturedCard: (value: React.SetStateAction<string[]>) => void,
 }
 
 const StoreOwnerCardDetails: React.FC<Props>= ({ route, navigation }) => {
@@ -22,7 +22,7 @@ const StoreOwnerCardDetails: React.FC<Props>= ({ route, navigation }) => {
   useEffect(() => {
     
     (async() => {
-        const YGOCard = await getCardByName(item);
+        const YGOCard = await getCardByName(item.card_identifier);
         const condensedCard = {
           id: YGOCard.data[0].id,
           name: YGOCard.data[0].name,
@@ -47,6 +47,8 @@ const StoreOwnerCardDetails: React.FC<Props>= ({ route, navigation }) => {
 
   const handleSetFeaturedCard = (card: YGOCard[]) => {
     // TODO: IMPLEMENT TO CHANGE IN DB
+    console.log(cardDetails)
+    postFeaturedCard('Robert`s Emporium of Cards', item.id)
     setFeaturedCard([cardDetails[0].name])
     navigation.navigate('Manage Store', {card})
   }

@@ -17,7 +17,8 @@ export default interface YGOCard{
     desc: string,
     race: string, // values like Spellcaster, Warrior, Insect, Field, Equip, Counter
     card_images: cardImage[],
-    card_prices?: cardPrice[]
+    card_prices?: cardPrice[],
+    id?: number
 }
 
 export interface MonsterCard extends YGOCard{

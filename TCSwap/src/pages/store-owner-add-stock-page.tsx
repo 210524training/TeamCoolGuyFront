@@ -10,97 +10,135 @@ import { useState } from 'react';
 import { Alert, StyleSheet, TextInput, Text, View, ScrollView } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
-import { getCardByName } from '../remote/apis/YGOapi';
+import { getCardByFuzzyName, getCardByName } from '../remote/apis/YGOapi';
 import YGOCard from '../models/YGOCard';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import { useEffect } from 'react';
+import { addCardToCollection } from '../remote/Backend.api';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { addCardToState } from '../redux/slices/collection.slice';
+import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
+import User from '../models/user';
 
 type Props = { 
+  navigation: any,
 }
 
-const AddStockPage: React.FC<Props> = () => {
+const AddStockPage: React.FC<Props> = ({ navigation }) => {
 
-  const [cardName, setCardName] = useState<string>('');
-  const [YGOCardList, setYGOCardList] = useState<YGOCard[]>([]);
-  const [YGOCard, setYGOCard] = useState<YGOCard[]>([]);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    setYGOCard([YGOCardList[0]])
-  }, [YGOCardList])
+  const user: User = useAppSelector((state) => {
+      return state.user as User
+  })
 
-  const handleSearch = async () => {
-    const cards= await getCardByName(cardName);
-    const condensedCard = {
-      id: cards.data[0].id,
-      name: cards.data[0].name,
-      type: cards.data[0].type,
-      desc: cards.data[0].desc,
-      atk: cards.data[0].atk,
-      def: cards.data[0].def,
-      level: cards.data[0].level,
-      race: cards.data[0].race,
-      attribute: cards.data[0].attribute,
-      card_images: cards.data[0].card_images,
-      card_prices: cards.data[0].card_prices,
-    }
-    if(cards.data.length > 0) {
-      setYGOCardList([condensedCard]);
-    }
-    
-  }
+  const [searchQuery, setSearchQuery] = useState<string>('');
+	const [cardData, setCardData] = useState<YGOCard[]>();
+	const [searchIndex, setSearchIndex] = useState<number>(0);
 
-  const handleAddToInventory = async () => {
-    //TODO: Send card name to store-owner/user in database
-    Alert.alert(
-      "Card added to inventory!",
-      "Kind of, add some more!",
-      [
-        {
-          text: "Dismiss",
-          onPress: () => Alert.alert("Dismiss Pressed"),
-          style: "cancel",
-        },
-      ]
-    )
-  }
+  // const [cardName, setCardName] = useState<string>('');
+  // const [YGOCardList, setYGOCardList] = useState<YGOCard[]>([]);
+  // const [YGOCard, setYGOCard] = useState<YGOCard[]>([]);
 
-  return (
-    <ScrollView style={styles.container}>
-      <Banner text={'Add Stock'} />
-      <View style={{ width: '100%', padding: 25 }}>
-        <Text >Enter Name of Card:</Text>
-        <TextInput
-          style={{ fontSize: 18, margin: 10, backgroundColor: 'white' }}
-          placeholder="Dark Magician"
-          onChangeText={text => setCardName(text)}
-        />
+  const onTextChange = (query: string) => {
+		setSearchQuery(query);
+	}
+
+	const onSubmit = async () => {
+		setSearchIndex(0);
+		const card = await getCardByFuzzyName(searchQuery);
+    setCardData(card.data);
+	}
+
+	const addCard = async () => {
+		if(cardData) {
+			await addCardToCollection(user.username, cardData[searchIndex].name);
+			dispatch(addCardToState(cardData[searchIndex].name));
+			navigation.navigate('Manage Store');
+		}
+	}
+
+	const incrementSearchIndex = () => {
+		if(cardData && searchIndex < cardData.length-1) {
+			setSearchIndex(searchIndex+1);
+		}
+	}
+
+	const decrementSearchIndex = () => {
+		if(searchIndex > 0) {
+			setSearchIndex(searchIndex-1);
+		}
+	}
+
+  return(
+    <>
+      <Banner text='Search for the card you want to add' />
+      <ScrollView>
         <View style={styles.controls}>
-        <ButtonBlackWhite functionality={handleSearch} text="Search"/>
+          <TextInput placeholder='Search by card name' 
+                    style ={[styles.item]} 
+                    onChangeText={onTextChange}/>
+          <ButtonBlackWhite text='Submit' functionality = {() => {onSubmit()}}/>
         </View>
-      </View>
-      {
-        YGOCardList.length > 0 ? 
-        <View>
-          <CardDetailItemReusable data={YGOCard[0]} /> 
-          <View style={styles.controls}>
-            <ButtonBlackWhite text={'Confirm'} functionality={() => handleAddToInventory()} />
-          </View>
-        </View>
-        : <></>
-      }
-    </ScrollView>
-        
-  );
+        {
+          cardData ? (
+            <>
+              <View style={styles.controls}>
+                <ButtonBlackWhite text='<-' functionality={decrementSearchIndex}/>
+                <ButtonBlackWhite text='->' functionality={incrementSearchIndex}/>
+              </View>
+              <CardDetailItemReusable data={cardData[searchIndex]} />
+              <View style={styles.container}>
+                <HorizontialRuleWithText text='Is this your card'/>
+                <ButtonBlackWhite text='Yes' functionality = {addCard}/>
+              </View>
+            </>
+          )
+          :
+          (<></>)
+        }
+      </ScrollView>
+    </>
+)
 }
 
 export default AddStockPage;
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create ({
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    backgroundColor: "#d8d9d0",
+  },
+  title: {
+    fontSize: 26,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 75,
+  },
+  details: {
     flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   controls: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-});
+  container: {
+		justifyContent: 'space-between',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    alignItems: 'center',
+    borderRadius: 4,
+    borderWidth: 1,
+    backgroundColor: "#d8d9d0",
+  },
+})
