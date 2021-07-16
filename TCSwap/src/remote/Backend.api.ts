@@ -4,7 +4,7 @@ import User from '../models/user';
 let tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 
 const backendClient = axios.create({
-  baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev/',
+  baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,30 +12,55 @@ const backendClient = axios.create({
 });
 
 export const addCardToCollection = async (username: string, cardID: string): Promise<void> => {
-  const game = 'YuGiOh!';
+  const game = 'Yu-Gi-Oh!';
   const condition = 'Mint';
   const res = await backendClient.post<unknown>(`collections/${username}`, {cardID, game, condition});
   console.log(res);
 }
 
-// NOW working, was not working before because .get was sending second param(a empty body: {})
 export const getCardCollection = async (username: string): Promise<string[]> => {
-    const collection = await backendClient.get<any>(`collections/${username}`)
-    
-    let cardNames: string[] = [];
-    collection.data.message.forEach((card: any) => {
-      cardNames.push(card.card_identifier) 
-    })
-    return cardNames as string[];
+  const collection = await backendClient.get<any>(`collections/${username}`)
+  return collection.data.message
 }
 
-export const getCardFeatured = async (): Promise<string[]> => {
-  return ['Dark Magician'];
+/**
+ * 
+ * MANAGE-STORE Section
+ * 
+ */
+
+export const getUsersStore = async (username: string): Promise<Object> => {
+  const data = await backendClient.get<any>(`store/${username}`);
+  console.log('USER STORE', data);
+  return data.data.message
 }
 
-export const postCardFeatured = async (): Promise<boolean> => {
-  return true;
+export const getCardFeatured = async (username: string): Promise<string[]> => {
+  console.log('storeowner', username)
+  const data = await backendClient.get<any>(`store/featured/${username}`)
+  console.log('Featured Card', data)
+
+  if (data.data.message) {
+    return data.data.message
+  }
+  return []
 }
+
+export const postFeaturedCard = async (storeName: string, featuredCardId: number | undefined): Promise<boolean> => {
+  console.log(storeName, featuredCardId)
+  const data = await backendClient.post<any>('store/featured', {
+    storeName,
+    featuredCardId
+  })
+  console.log('Set Featured', data)
+  return data.data.message;
+}
+
+/**
+ * 
+ * TESTING LAMBDA
+ * 
+ */
 
 export const testPostHelloFunc = async (name: string): Promise<string> => {
   const response = await backendClient.post<any>('hello', {

@@ -5,9 +5,13 @@ import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import StoreCardItem from '../components/StoreCardItem'
+import StoreDB from '../models/store';
+import User from '../models/user';
 import YGOCard from '../models/YGOCard';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { CollectionState, getCollectionAsync, selectCollection } from '../redux/slices/collection.slice';
 import { getCardByName } from '../remote/apis/YGOapi';
-import { getCardCollection, getCardFeatured } from '../remote/Backend.api';
+import { getCardCollection, getCardFeatured, getUsersStore } from '../remote/Backend.api';
 
 type Props = {
   item: any
@@ -19,14 +23,36 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   //TODO: Change to receive input from DB
   const [featuredCard, setFeaturedCard] = useState<string[]>([]);
   const [populatedFeaturedCard, setPopulatedFeaturedCard]  = useState<YGOCard[]>([]);
-  
-  const [cardList, setCardList] = useState<string[]>([]);
-  const [populatedCards, setPopulatedCards]  = useState<string[]>([]);
+  const [storeDB, setStoreDB] = useState<StoreDB>();
+
+  const dispatch = useAppDispatch();
+
+  const user: User = useAppSelector((state) => {
+    return state.user as User
+})
+
+  const inventory = useAppSelector<CollectionState>(selectCollection) || [];
+  console.log(inventory)
+
+  useEffect(() => {
+    
+    (async () => {
+      console.log('refresh')
+      await dispatch(getCollectionAsync(user.username));
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
-      const cards = await getCardFeatured();
-      setFeaturedCard(cards); 
+      const currentStore: StoreDB[] | any = await getUsersStore(user.username)
+      setStoreDB(currentStore[0])
+      console.log(currentStore)
+      const cards = await getCardFeatured(user.username);
+      console.log('getfeaturedcardmanagestore', cards)
+      if (cards.length > 0) {
+        setFeaturedCard([cards[0].card_identifier]); 
+      }
+      
     })()
   },[])
 
@@ -51,40 +77,28 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   )()
   },[featuredCard])
 
-  useEffect(() => {
-    (async () => {
-      // TODO: get username from redux state for argument
-      const cards = await getCardCollection('bob99');
-      setCardList(cards); 
-    })()
-  },[])
-
-  useEffect(() => {
-    setPopulatedCards(cardList)
-  },[cardList])
-
-
   const handleAddCard = () => {
     navigation.navigate('Add Stock')
   }
 
   const renderItem = ({ item }) => {
+    console.log('renderItem', item)
     return (
       <StoreCardItem
-        cardName={item}
-        onPress={() => navigation.navigate('Card Details', { navigation, item, setFeaturedCard })}
+        cardName={item.card_identifier}
+        onPress={() => navigation.navigate('Card Details', { navigation, item })}
       />
     )
   }
       
   return (
     <ScrollView style={{flex: 1}}>
-      <Banner text={'Store name'} />
+      <Banner text={storeDB?.storeName || ''} />
       <View style={styles.controls}>
         <ButtonBlackWhite text={'Add Stock'} functionality={() => handleAddCard()} />
       </View>
       {
-        populatedFeaturedCard ?
+        populatedFeaturedCard.length > 0 ?
       <View>
         <Text style={styles.featured}>Featured Card</Text>
         <CardDetailItemReusable data={populatedFeaturedCard[0]} />
@@ -95,7 +109,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
       <View style={{flex: 1}}>
         <Text style={styles.featured}>Inventory</Text>
         <FlatList
-        data={populatedCards}
+        data={inventory}
         renderItem={renderItem}
         keyExtractor={item => item}
       />

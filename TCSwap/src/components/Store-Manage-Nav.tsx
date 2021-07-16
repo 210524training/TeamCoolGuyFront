@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import AddCardPage from '../pages/AddCardPage';
 import ManageStore from '../pages/Manage-Store';
 import AddStockPage from '../pages/store-owner-add-stock-page';
 import StoreOwnerCardDetails from '../pages/store-owner-card-details-page';
