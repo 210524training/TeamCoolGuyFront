@@ -21,25 +21,6 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
 
   const dispatch = useAppDispatch();
 
-  const handleOwnerLogin = async () => {
-    const result = await dispatch(loginAsync({username:'best_owner', password:'root' }));
-    if(result.meta.requestStatus ==='fulfilled'){
-      navigation.navigate('Store Owners');
-    }else{
-      alert('login failed');
-    }
-    
-  }
-
-  const handlePlayerLogin = async () => {
-    const result = await dispatch(loginAsync({username:'best_player', password:'root' }));
-    if(result.meta.requestStatus ==='fulfilled'){
-      navigation.navigate('Players');
-    }else{
-      alert('login failed');
-    }
-  }
-
   const handleLogin= async()=>{
     const result = await dispatch(loginAsync({username, password}));
     if(result.meta.requestStatus ==='fulfilled'){
@@ -52,7 +33,6 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
           navigation.navigate('Store Owners');
         }
       }
-      
     }else{
       alert('login failed');
     }
@@ -60,15 +40,24 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
 
   return (
     <>
-      <View>
-        <Text>Hello! Welcome to our login page.</Text>
-        <CustButton1 title="register user shortcut" onPress={()=>navigation.navigate('Register')}/>
-        
-        <CustButton1 title="Store owner log in shortcut"onPress={handleOwnerLogin}/>
-        <CustButton1 title="Player log in shortcut" onPress={handlePlayerLogin}/>
-        
+      <View>        
       </View>
       {/** BELOW IS LOGIN FORM */}
+      <View>
+        <Text>
+        <Text>Hello! Welcome to our login page. No account? Then register </Text>
+          <Text
+              style={{
+                color: 'blue',
+                textDecorationLine: 'underline',
+              }}
+              onPress={()=>navigation.navigate('Register')}
+            >
+              here
+            </Text>
+            <Text>!</Text>
+        </Text>
+      </View>
       <View style={{ width: '100%', padding: 25 }}>
         <Text >Username:</Text>
         <TextInput
