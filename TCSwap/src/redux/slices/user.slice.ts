@@ -8,22 +8,6 @@ import { RootState } from "../store";
 
 export type UserState = User | null;
 
-const examplePlayer: User ={
-    username: 'best_player',
-    password: 'root',
-    firstname: 'John',
-    lastname: 'Doe',
-    role: 'player'
-}
-
-const exampleStoreOwner: User ={
-    username: 'best_owner',
-    password: 'root',
-    firstname: 'Peter',
-    lastname: 'Smith',
-    role: 'store owner'
-}
-
 export type LoginCredentials = {
   username: string;
   password: string;

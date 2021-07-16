@@ -55,3 +55,15 @@ export const sendLogin = async (username: string, password: string): Promise<Use
   }
   return response.data.user as User;
 }
+
+export const registerUser = async (user: User): Promise<boolean> => {
+  const response = await backendClient.post<any>('/register', {
+    username: user.username,
+    password: user.password,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    role: user.role,
+  });
+ 
+  return response.data.registerResult as boolean;
+}

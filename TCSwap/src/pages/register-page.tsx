@@ -4,15 +4,16 @@ import { Button, StyleSheet, TextInput, Text, View, StatusBar} from 'react-nativ
 import {Picker} from '@react-native-community/picker';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { loginAsync, logout, selectUser, UserState } from '../redux/slices/user.slice'; 
+import { loginAsync, login, selectUser, UserState } from '../redux/slices/user.slice'; 
 import { useNavigation } from '@react-navigation/native';
 import CustButton1 from '../components/CustButton1';
+import {registerUser} from '../remote/Backend.api';
+import User from '../models/user';
 
 type Props = { navigation: any }
 
-const LoginPage: React.FC<Props> = ({ navigation }) => {
+const RegisterPage: React.FC<Props> = ({ navigation }) => {
 
-  const user = useAppSelector<UserState>(selectUser);
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [firstName, setFirstName] = useState<string>();
@@ -39,13 +40,8 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
           alert('enter your last name');
           return;
       }
-      /*if(!role){
-          alert('select your role');
-          return;
-      }*/
-
       //login if register is successful
-      const newUser={
+      const newUser: User ={
         username,
         password,
         firstname: firstName,
@@ -54,7 +50,21 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
       };
 
       // register user
-      alert(`registering {${newUser.username}}...}`);
+      const response = await registerUser(newUser);
+      if(response){
+        const result = dispatch(login(newUser));
+        alert('login successful!');
+        if(newUser.role === 'player'){
+          navigation.navigate('Players');
+        }
+        else{
+          navigation.navigate('Store Owners');
+        }
+        
+      }
+      else{
+        alert(`register failed! username:{${newUser.username}} already exists.`);
+      }
   }
 
   return (
@@ -125,4 +135,4 @@ const styles = StyleSheet.create ({
   }
 })
 
-export default LoginPage;
+export default RegisterPage;
