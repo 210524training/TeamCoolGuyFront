@@ -19,7 +19,7 @@ const Collection: React.FC<props> = (props) => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getCollectionAsync({}));
+      await dispatch(getCollectionAsync('bob99'));
     })();
   }, []);
 

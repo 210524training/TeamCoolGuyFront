@@ -5,11 +5,13 @@ import { RootState } from "../store";
 
 export type CollectionState = string[];
 
-export const getCollectionAsync = createAsyncThunk<CollectionState, unknown>(
+//async thunk to get a collection for a specific user
+//Accepts the user's name as a param
+export const getCollectionAsync = createAsyncThunk<CollectionState, string>(
     'collection/getCollection/async',
-    async (empty, thunkAPI) => {
+    async (userName, thunkAPI) => {
         try {
-            const response = await getCardCollection();
+            const response = await getCardCollection(userName);
             return response;
         }
         catch(error) {
@@ -22,9 +24,12 @@ export const collectionSlice = createSlice({
     name: 'collection',
     initialState: [] as CollectionState,
     reducers: {
+        //Function to get the current collection state
         getCollection: (state: CollectionState, action: PayloadAction<CollectionState>) => {
             return action.payload;
         },
+        //Function to add a card to a users collection
+        //Accepts a string that is the cards identifier string
         addCardToState: (state, action: PayloadAction<string>) => {
             const newState = state;
             newState.push(action.payload);

@@ -27,14 +27,19 @@ const AddCardPage: React.FC<props> = (props) => {
 	}
 
 	const onSubmit = async () => {
-		setSearchIndex(0);
-		const card = await getCardByFuzzyName(searchQuery);
-    setCardData(card.data);
+		try {
+			setSearchIndex(0);
+			const card = await getCardByFuzzyName(searchQuery);
+			setCardData(card.data);
+		}
+		catch(error) {
+			console.log('Unable to find card', error);
+		}
 	}
 
 	const addCard = async () => {
 		if(cardData) {
-			await addCardToCollection(cardData[searchIndex].name);
+			await addCardToCollection('bob99', cardData[searchIndex].name);
 			dispatch(addCardToState(cardData[searchIndex].name));
 			props.navigation.navigate('Collection');
 		}

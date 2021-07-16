@@ -3,15 +3,18 @@ import axios from 'axios';
 let tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 
 const backendClient = axios.create({
-  baseURL: 'https://25hxwtfg72.execute-api.us-west-1.amazonaws.com/dev/',
+  baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev/',
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: false,
 });
 
-export const addCardToCollection = async (cardID: string): Promise<void> => {
-  tmpCollection = tmpCollection.concat([cardID]);//for some reason push stop working ???
+export const addCardToCollection = async (username: string, cardID: string): Promise<void> => {
+  const game = 'YuGiOh!';
+  const condition = 'Mint';
+  const res = await backendClient.post<unknown>(`collections/${username}`, {cardID, game, condition});
+  console.log(res);
 }
 
 // NOW working, was not working before because .get was sending second param(a empty body: {})
