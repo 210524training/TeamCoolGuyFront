@@ -1,4 +1,5 @@
 import axios from 'axios';
+import User from '../models/user';
 
 let tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 
@@ -41,4 +42,16 @@ export const testPostHelloFunc = async (name: string): Promise<string> => {
     name
   });
   return response.data
+}
+
+export const sendLogin = async (username: string, password: string): Promise<User> => {
+  const response = await backendClient.post<any>('/login', {
+    username,
+    password,
+  });
+  console.log(response);
+  if(!response.data.loginResult) {
+    throw new Error("invalid login!");
+  }
+  return response.data.user as User;
 }
