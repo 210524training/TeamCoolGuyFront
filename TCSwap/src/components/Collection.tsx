@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, Text, StyleSheet, View, ScrollView } from 'react-native';
+import DBCard from '../models/DBCard';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { CollectionState, getCollectionAsync, selectCollection } from "../redux/slices/collection.slice";
 import Banner from './Banner';
@@ -13,7 +14,7 @@ type props = {
 const Collection: React.FC<props> = (props) => {
 
   const dispatch = useAppDispatch();
-  const collection = useAppSelector<CollectionState>(selectCollection) || [];
+  const collection = useAppSelector<any>(selectCollection) || [];
 
   const [cardCollection, setCardCollection] = useState<string[]>([]);
 
@@ -23,7 +24,21 @@ const Collection: React.FC<props> = (props) => {
     })();
   }, []);
 
-  const buttons: JSX.Element[] = collection.map<JSX.Element>((cardName) => {
+  //adding to fix user login the collection now returns array of card objects
+  //{id: 8, card_owner: "billyman123", card_identifier: "Akashic Magician", game: "Yu-Gi-Oh!", condition: "Mint", …}
+  //making function to get an array of card names, change as you wish
+
+  const extractCardNames = (Objs: DBCard[]) => {
+    const cardNames: string[] = [];
+    Objs.forEach(card => {
+      cardNames.push(card.card_identifier);
+    })
+    console.log(cardNames)
+    return cardNames;
+  }
+
+  const buttons: JSX.Element[] = extractCardNames(collection).map<JSX.Element>((cardName) => {
+    
     return (
     <Pressable onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }
                style = {styles.item}
