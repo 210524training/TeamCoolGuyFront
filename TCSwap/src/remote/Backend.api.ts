@@ -17,9 +17,7 @@ const backendClient = axios.create({
  */
 
 export const addCardToCollection = async (username: string, cardID: string, game: string, condition: string): Promise<void> => {
-  console.log(cardID, game, condition);
   const res = await backendClient.post<unknown>(`collections/${username}`, {cardID, game, condition});
-  console.log(res);
 }
 
 export const getCardCollection = async (username: string): Promise<DBCard[]> => {
@@ -52,14 +50,11 @@ export const gettMessages = async (message: any): Promise<any> => {
 
 export const getUsersStore = async (username: string): Promise<Object> => {
   const data = await backendClient.get<any>(`store/${username}`);
-  console.log('USER STORE', data);
   return data.data.message
 }
 
 export const getCardFeatured = async (username: string): Promise<string[]> => {
-  console.log('storeowner', username)
   const data = await backendClient.get<any>(`store/featured/${username}`)
-  console.log('Featured Card', data)
 
   if (data.data.message) {
     return data.data.message
@@ -68,12 +63,10 @@ export const getCardFeatured = async (username: string): Promise<string[]> => {
 }
 
 export const postFeaturedCard = async (storeName: string, featuredCardId: number | undefined): Promise<boolean> => {
-  console.log(storeName, featuredCardId)
   const data = await backendClient.post<any>('store/featured', {
     storeName,
     featuredCardId
   })
-  console.log('Set Featured', data)
   return data.data.message;
 }
 
@@ -101,7 +94,6 @@ export const sendLogin = async (username: string, password: string): Promise<Use
     username,
     password,
   });
-  console.log(response);
   if(!response.data.loginResult) {
     throw new Error("invalid login!");
   }
