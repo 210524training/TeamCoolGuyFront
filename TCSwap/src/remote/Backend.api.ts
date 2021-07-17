@@ -11,6 +11,12 @@ const backendClient = axios.create({
   withCredentials: false,
 });
 
+/**
+ * 
+ * PLAYERS
+ * 
+ */
+
 export const addCardToCollection = async (username: string, cardID: string): Promise<void> => {
   const game = 'Yu-Gi-Oh!';
   const condition = 'Mint';
@@ -21,6 +27,23 @@ export const addCardToCollection = async (username: string, cardID: string): Pro
 export const getCardCollection = async (username: string): Promise<string[]> => {
   const collection = await backendClient.get<any>(`collections/${username}`)
   return collection.data.message
+}
+
+/**
+ * 
+ * MESSANGER
+ * 
+ */
+
+export const postMessages = async (message: any): Promise<void> => {
+  const res = await backendClient.post<any>(`messages`, {
+    message
+  })
+}
+
+export const gettMessages = async (message: any): Promise<any> => {
+  return await backendClient.get<any>(`messages`)
+  
 }
 
 /**
@@ -68,6 +91,12 @@ export const testPostHelloFunc = async (name: string): Promise<string> => {
   });
   return response.data
 }
+
+/**
+ * 
+ * LOGIN / REGISTER
+ * 
+ */
 
 export const sendLogin = async (username: string, password: string): Promise<User> => {
   const response = await backendClient.post<any>('/login', {
