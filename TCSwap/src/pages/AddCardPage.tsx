@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { TextInput, StyleSheet, View, Text, ScrollView } from 'react-native';
+import { TextInput, StyleSheet, View, Text, ScrollView, Picker } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
 import YGOCard from '../models/YGOCard';
-import { useAppDispatch } from '../redux';
-import { addCardToState } from '../redux/slices/collection.slice';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { getCollectionAsync } from '../redux/slices/collection.slice';
+import { selectUser, UserState } from '../redux/slices/user.slice';
 import { getCardByFuzzyName } from '../remote/apis/YGOapi';
 import { addCardToCollection } from '../remote/Backend.api';
 
@@ -17,10 +18,13 @@ type props = {
 const AddCardPage: React.FC<props> = (props) => {
 
 	const dispatch = useAppDispatch();
+	const user = useAppSelector<UserState>(selectUser);
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [cardData, setCardData] = useState<YGOCard[]>();
 	const [searchIndex, setSearchIndex] = useState<number>(0);
+	const [game, setGame] = useState<string>('Yu-Gi-Oh!');
+	const [condition, setCondition] = useState<string>('');
 
 	const onTextChange = (query: string) => {
 		setSearchQuery(query);
@@ -39,9 +43,11 @@ const AddCardPage: React.FC<props> = (props) => {
 
 	const addCard = async () => {
 		if(cardData) {
-			await addCardToCollection('bob99', cardData[searchIndex].name);
-			dispatch(addCardToState(cardData[searchIndex].name));
-			props.navigation.navigate('Collection');
+			if(user) {
+				await addCardToCollection(user.username, cardData[searchIndex].name, game, condition);
+				await dispatch(getCollectionAsync(user.username));
+				props.navigation.navigate('Collection');
+			}
 		}
 	}
 
@@ -76,8 +82,17 @@ const AddCardPage: React.FC<props> = (props) => {
 								</View>
 								<CardDetailItemReusable data={cardData[searchIndex]} />
 								<View style={styles.container}>
-									<HorizontialRuleWithText text='Is this your card'/>
-									<ButtonBlackWhite text='Yes' functionality = {addCard}/>
+									<View style={styles.controls}>
+										<Picker
+											selectedValue={game}
+											style={styles.item}
+											onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
+											<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
+										</Picker>
+										<Text style={styles.description}>Card condition: </Text>
+										<TextInput style={styles.item} onChangeText={setCondition} placeholder='Mint' />
+										<ButtonBlackWhite text='Add card' functionality = {addCard}/>
+									</View>
 								</View>
 							</>
 						)
@@ -126,6 +141,10 @@ const styles = StyleSheet.create ({
     borderWidth: 1,
     backgroundColor: "#d8d9d0",
   },
+	description: {
+		paddingVertical: 10,
+		fontSize: 24,
+	}
 })
 
 export default AddCardPage;

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ActionSheetIOS } from "react-native";
+import DBCard from "../../models/DBCard";
 import { getCardCollection } from "../../remote/Backend.api";
 import { RootState } from "../store";
 
-export type CollectionState = string[];
+export type CollectionState = DBCard[];
 
 //async thunk to get a collection for a specific user
 //Accepts the user's name as a param
@@ -28,13 +28,6 @@ export const collectionSlice = createSlice({
         getCollection: (state: CollectionState, action: PayloadAction<CollectionState>) => {
             return action.payload;
         },
-        //Function to add a card to a users collection
-        //Accepts a string that is the cards identifier string
-        addCardToState: (state, action: PayloadAction<string>) => {
-            const newState = state;
-            newState.push(action.payload);
-            return newState;
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -50,6 +43,6 @@ export const collectionSlice = createSlice({
     },
 });
 
-export const { getCollection, addCardToState } = collectionSlice.actions;
+export const { getCollection } = collectionSlice.actions;
 export const selectCollection = (state: RootState) => state.collection;
 export default collectionSlice.reducer;

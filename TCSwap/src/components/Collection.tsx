@@ -1,51 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, Text, StyleSheet, View, ScrollView } from 'react-native';
 import DBCard from '../models/DBCard';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { CollectionState, getCollectionAsync, selectCollection } from "../redux/slices/collection.slice";
+import { getCollectionAsync, selectCollection } from "../redux/slices/collection.slice";
+import { selectUser, UserState } from '../redux/slices/user.slice';
 import Banner from './Banner';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 
 type props = {
-    collection: Array<string>,
     navigation: any,
 }
 
 const Collection: React.FC<props> = (props) => {
 
   const dispatch = useAppDispatch();
-  const collection = useAppSelector<any>(selectCollection) || [];
-
-  const [cardCollection, setCardCollection] = useState<string[]>([]);
+  const collection = useAppSelector<DBCard[]>(selectCollection) || [];
+  const user = useAppSelector<UserState>(selectUser);
 
   useEffect(() => {
     (async () => {
-      await dispatch(getCollectionAsync('bob99'));
+      if(user) {
+        await dispatch(getCollectionAsync(user.username));
+      }
     })();
-  }, []);
+  }, [user]);
 
-  //adding to fix user login the collection now returns array of card objects
-  //{id: 8, card_owner: "billyman123", card_identifier: "Akashic Magician", game: "Yu-Gi-Oh!", condition: "Mint", …}
-  //making function to get an array of card names, change as you wish
-
-  const extractCardNames = (Objs: DBCard[]) => {
-    const cardNames: string[] = [];
-    Objs.forEach(card => {
-      cardNames.push(card.card_identifier);
-    })
-    console.log(cardNames)
-    return cardNames;
-  }
-
-  const buttons: JSX.Element[] = extractCardNames(collection).map<JSX.Element>((cardName) => {
+  const buttons: JSX.Element[] = collection.map<JSX.Element>((card) => {
     
     return (
-    <Pressable onPress={() => { props.navigation.navigate('Card Info', {cardName}); } }
+    <Pressable onPress={() => { props.navigation.navigate('Card Info', { cardName: card.card_identifier }); } }
                style = {styles.item}
-               key = {cardName}>
-      <View style={styles.details} key = {cardName}>
-        <Text style={[styles.title]} key = {cardName}>
-          {cardName}
+               key = {card.card_identifier}>
+      <View style={styles.details} key = {card.card_identifier}>
+        <Text style={[styles.title]} key = {card.card_identifier}>
+          {card.card_identifier}
         </Text>
       </View>
     </Pressable>)
