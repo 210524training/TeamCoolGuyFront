@@ -7,21 +7,6 @@ import User from '../models/user';
 import { useAppSelector } from '../redux';
 import { postMessages, getMessages } from '../remote/Backend.api';
 
-// interface customMessage {
-  
-//   messages: [
-//     {
-//       id: string,  //auto-generated
-//       text: string, //auto-generated
-//       createdAt: Date, //new Date()
-//       user: {
-//         id: number, //user.username
-//         name: string, //user.username
-//       },
-//     },
-//   ],
-// }
-
 const Messenger: React.FC<unknown> = () => {
 
   const user: User = useAppSelector((state) => {
@@ -34,30 +19,16 @@ const Messenger: React.FC<unknown> = () => {
 
     (async () => {
       const data = await getMessages();
-      console.log(data)
-      setMessages(data)
+      const sortData = data.reverse()
+      setMessages(sortData)
     })()
 
-    // setMessages([
-    //   {
-    //     _id: 1,
-    //     text: 'Hello developer',
-    //     createdAt: new Date(),
-    //     user: {
-    //       _id: 2,
-    //       name: 'React Native',
-    //       avatar: 'https://placeimg.com/140/140/any',
-    //     },
-    //   },
-    // ])
-
-  }, [])
+  })
 
   const onSend = useCallback((messages = []) => {
     // send to backend
     postMessages(messages[0]);
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
-    console.log(messages);
   }, [])
   return (
     <GiftedChat

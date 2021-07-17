@@ -47,7 +47,6 @@ export const getCardCollection = async (username: string): Promise<DBCard[]> => 
 export const postMessages = async (message: Message): Promise<void> => {
   const { _id, text, createdAt, user } = message
   
-  console.log('Backend', _id, text, createdAt, user )
   const res = await backendClient.post<any>(`messages`, {
     id: _id,
     text,
@@ -59,7 +58,6 @@ export const postMessages = async (message: Message): Promise<void> => {
 
 export const getMessages = async (): Promise<any> => {
   const res = await backendClient.get<any>(`messages`)
-  console.log('Backend', res.data)
   return res.data.messages
 }
 
