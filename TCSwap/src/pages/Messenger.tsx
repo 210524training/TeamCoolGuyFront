@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { GiftedChat, GiftedChatState, IMessage } from 'react-native-gifted-chat'
 import User from '../models/user';
 import { useAppSelector } from '../redux';
-import { postMessages } from '../remote/Backend.api';
+import { postMessages, getMessages } from '../remote/Backend.api';
 
 // interface customMessage {
   
@@ -32,8 +32,11 @@ const Messenger: React.FC<unknown> = () => {
 
   useEffect(() => {
 
-    // const data = await getMessages(messages);
-    // setMessages(data)
+    (async () => {
+      const data = await getMessages();
+      console.log(data)
+      setMessages(data)
+    })()
 
     // setMessages([
     //   {
@@ -47,15 +50,15 @@ const Messenger: React.FC<unknown> = () => {
     //     },
     //   },
     // ])
+
   }, [])
 
   const onSend = useCallback((messages = []) => {
     // send to backend
-    // postMessages(messages);
+    postMessages(messages[0]);
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
     console.log(messages);
   }, [])
-  console.log(messages, user)
   return (
     <GiftedChat
       messages={messages}

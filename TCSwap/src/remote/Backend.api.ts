@@ -1,5 +1,6 @@
 import axios from 'axios';
 import DBCard from '../models/DBCard';
+import Message from '../models/Message';
 import User from '../models/user';
 
 const backendClient = axios.create({
@@ -31,15 +32,35 @@ export const getCardCollection = async (username: string): Promise<DBCard[]> => 
  * 
  */
 
-export const postMessages = async (message: any): Promise<void> => {
+//  const formatRows: IMessage[] = rows.array.map((row: Message) => {
+//   return {
+//     _id: row.id,
+//     text: row.text,
+//     createdAt: row.created_at,
+//     user: { 
+//       _id: row.created_by,
+//       name: row.created_by
+//     }
+//   }
+// });
+
+export const postMessages = async (message: Message): Promise<void> => {
+  const { _id, text, createdAt, user } = message
+  
+  console.log('Backend', _id, text, createdAt, user )
   const res = await backendClient.post<any>(`messages`, {
-    message
+    id: _id,
+    text,
+    created_at: createdAt,
+    created_by: user.name
+
   })
 }
 
-export const getMessages = async (message: any): Promise<any> => {
-  return await backendClient.get<any>(`messages`)
-  
+export const getMessages = async (): Promise<any> => {
+  const res = await backendClient.get<any>(`messages`)
+  console.log('Backend', res.data)
+  return res.data.messages
 }
 
 /**

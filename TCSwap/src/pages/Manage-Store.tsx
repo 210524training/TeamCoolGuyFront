@@ -32,12 +32,10 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
 })
 
   const inventory = useAppSelector<CollectionState>(selectCollection) || [];
-  console.log(inventory)
 
   useEffect(() => {
     
     (async () => {
-      console.log('refresh')
       await dispatch(getCollectionAsync(user.username));
     })();
   }, []);
@@ -46,9 +44,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
     (async () => {
       const currentStore: StoreDB[] | any = await getUsersStore(user.username)
       setStoreDB(currentStore[0])
-      console.log(currentStore)
       const cards = await getCardFeatured(user.username);
-      console.log('getfeaturedcardmanagestore', cards)
       if (cards.length > 0) {
         setFeaturedCard([cards[0].card_identifier]); 
       }
@@ -82,7 +78,6 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
   }
 
   const renderItem = ({ item }) => {
-    console.log('renderItem', item)
     return (
       <StoreCardItem
         cardName={item.card_identifier}
