@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustButton1 from '../components/CustButton1';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import { testPostHelloFunc } from '../remote/Backend.api';
+import Banner from '../components/Banner';
 
 type Props = { navigation: any }
 
@@ -40,24 +41,9 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
 
   return (
     <>
-      <View>        
-      </View>
       {/** BELOW IS LOGIN FORM */}
-      <View>
-        <Text>
-        <Text>Hello! Welcome to our login page. No account? Then register </Text>
-          <Text
-              style={{
-                color: 'blue',
-                textDecorationLine: 'underline',
-              }}
-              onPress={()=>navigation.navigate('Register')}
-            >
-              here
-            </Text>
-            <Text>!</Text>
-        </Text>
-      </View>
+      <Banner text={''} />
+      <Banner text={'TC Swap'} />
       <View style={{ width: '100%', padding: 25 }}>
         <Text >Username:</Text>
         <TextInput
@@ -77,6 +63,22 @@ const LoginPage: React.FC<Props> = ({ navigation }) => {
 
      
         <CustButton1 onPress={handleLogin} title="Sign in"/>
+        
+      <View>
+        <Text>
+        <Text>No account? Then register </Text>
+          <Text
+              style={{
+                color: 'blue',
+                textDecorationLine: 'underline',
+              }}
+              onPress={()=>navigation.navigate('Register')}
+            >
+              here
+            </Text>
+            <Text>!</Text>
+        </Text>
+      </View>
       </View>
     </>
         

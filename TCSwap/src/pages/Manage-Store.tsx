@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Alert, FlatList, Button, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
@@ -11,7 +11,7 @@ import YGOCard from '../models/YGOCard';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { CollectionState, getCollectionAsync, selectCollection } from '../redux/slices/collection.slice';
 import { getCardByName } from '../remote/apis/YGOapi';
-import { getCardCollection, getCardFeatured, getUsersStore } from '../remote/Backend.api';
+import { getCardFeatured, getUsersStore } from '../remote/Backend.api';
 
 type Props = {
   item: any
@@ -86,7 +86,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
     return (
       <StoreCardItem
         cardName={item.card_identifier}
-        onPress={() => navigation.navigate('Card Details', { navigation, item })}
+        onPress={() => navigation.navigate('Card Details', { navigation, item, setFeaturedCard })}
       />
     )
   }

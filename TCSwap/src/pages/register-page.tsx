@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustButton1 from '../components/CustButton1';
 import {registerUser} from '../remote/Backend.api';
 import User from '../models/user';
+import Banner from '../components/Banner';
 
 type Props = { navigation: any }
 
@@ -71,6 +72,7 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
     <>
 
       <View style={styles.header}>
+      <Banner text={''} />
         <Text style={styles.headerText}>Register Here!</Text> 
       </View>
       <View style={{ width: '100%', padding: 25, }}>
@@ -114,6 +116,23 @@ const RegisterPage: React.FC<Props> = ({ navigation }) => {
         </Picker>*/}
 
         <CustButton1 onPress={handleRegister} title="Register"/>
+
+        <View>
+        <Text>
+        <Text>Already have an account? Then login </Text>
+          <Text
+              style={{
+                color: 'blue',
+                textDecorationLine: 'underline',
+              }}
+              onPress={()=>navigation.navigate('Login')}
+            >
+              here
+            </Text>
+            <Text>!</Text>
+        </Text>
+      </View>
+
       </View>
     </>
         

@@ -12,6 +12,14 @@ import store from './src/redux/store';
 import { Provider } from 'react-redux';
 import ViewStoresPage from './src/pages/stores-page';
 import Collection from './src/components/Collection';
+import ManageStore from './src/pages/Manage-Store';
+import AddStockPage from './src/pages/store-owner-add-stock-page';
+import StoreOwnerCardDetails from './src/pages/store-owner-card-details-page';
+import AddCardPage from './src/pages/AddCardPage';
+import ScrollableCardDisplay from './src/components/ScrollableCardDisplay';
+import Offers from './src/components/Offers';
+import TradeItem from './src/components/TradeItem';
+import Requests from './src/components/Requests';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -19,10 +27,11 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginPage} />
-          <Stack.Screen name="Players" component={PlayerPage} />
-          <Stack.Screen name="Store Owners" component={StoreOwnerPage} />
-          <Stack.Screen name="Register" component={RegisterPage} />
+
+          <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+          <Stack.Screen name="Players" component={PlayerPage} options={{ headerShown: false }} />
+          <Stack.Screen name="Store Owners" component={StoreOwnerPage} options={{ headerShown: false }} />
+          <Stack.Screen name="Register" component={RegisterPage} options={{ headerShown: false }} />
          
         </Stack.Navigator>
       </NavigationContainer>
