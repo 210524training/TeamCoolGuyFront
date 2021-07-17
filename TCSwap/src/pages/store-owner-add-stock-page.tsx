@@ -16,9 +16,9 @@ import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDet
 import { useEffect } from 'react';
 import { addCardToCollection } from '../remote/Backend.api';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { addCardToState } from '../redux/slices/collection.slice';
 import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
 import User from '../models/user';
+import { getCollectionAsync } from '../redux/slices/collection.slice';
 
 type Props = { 
   navigation: any,
@@ -53,7 +53,7 @@ const AddStockPage: React.FC<Props> = ({ navigation }) => {
 	const addCard = async () => {
 		if(cardData) {
 			await addCardToCollection(user.username, cardData[searchIndex].name);
-			dispatch(addCardToState(cardData[searchIndex].name));
+			await dispatch(getCollectionAsync(user.username));
 			navigation.navigate('Manage Store');
 		}
 	}

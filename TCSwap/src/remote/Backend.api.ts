@@ -1,7 +1,6 @@
 import axios from 'axios';
+import DBCard from '../models/DBCard';
 import User from '../models/user';
-
-let tmpCollection = ['Dark Magician', 'Blue-Eyes White Dragon', 'Dark Hole', 'Mirror Force'];
 
 const backendClient = axios.create({
   baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev',
@@ -17,16 +16,15 @@ const backendClient = axios.create({
  * 
  */
 
-export const addCardToCollection = async (username: string, cardID: string): Promise<void> => {
-  const game = 'Yu-Gi-Oh!';
-  const condition = 'Mint';
+export const addCardToCollection = async (username: string, cardID: string, game: string, condition: string): Promise<void> => {
+  console.log(cardID, game, condition);
   const res = await backendClient.post<unknown>(`collections/${username}`, {cardID, game, condition});
   console.log(res);
 }
 
-export const getCardCollection = async (username: string): Promise<string[]> => {
-  const collection = await backendClient.get<any>(`collections/${username}`)
-  return collection.data.message
+export const getCardCollection = async (username: string): Promise<DBCard[]> => {
+  const collection = await backendClient.get<{ message: DBCard[] }>(`collections/${username}`);
+  return collection.data.message;
 }
 
 /**
