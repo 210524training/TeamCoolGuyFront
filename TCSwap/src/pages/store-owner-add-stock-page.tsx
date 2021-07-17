@@ -52,7 +52,7 @@ const AddStockPage: React.FC<Props> = ({ navigation }) => {
 
 	const addCard = async () => {
 		if(cardData) {
-			await addCardToCollection(user.username, cardData[searchIndex].name);
+			await addCardToCollection(user.username, cardData[searchIndex].name, 'Yu-Gi-Oh!', 'Mint');
 			await dispatch(getCollectionAsync(user.username));
 			navigation.navigate('Manage Store');
 		}

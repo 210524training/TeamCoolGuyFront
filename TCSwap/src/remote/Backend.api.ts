@@ -1,5 +1,6 @@
 import axios from 'axios';
 import DBCard from '../models/DBCard';
+import Message from '../models/Message';
 import User from '../models/user';
 
 const backendClient = axios.create({
@@ -10,15 +11,56 @@ const backendClient = axios.create({
   withCredentials: false,
 });
 
+/**
+ * 
+ * PLAYERS
+ * 
+ */
+
 export const addCardToCollection = async (username: string, cardID: string, game: string, condition: string): Promise<void> => {
-  console.log(cardID, game, condition);
   const res = await backendClient.post<unknown>(`collections/${username}`, {cardID, game, condition});
-  console.log(res);
 }
 
 export const getCardCollection = async (username: string): Promise<DBCard[]> => {
   const collection = await backendClient.get<{ message: DBCard[] }>(`collections/${username}`);
   return collection.data.message;
+}
+
+/**
+ * 
+ * MESSANGER
+ * 
+ */
+
+//  const formatRows: IMessage[] = rows.array.map((row: Message) => {
+//   return {
+//     _id: row.id,
+//     text: row.text,
+//     createdAt: row.created_at,
+//     user: { 
+//       _id: row.created_by,
+//       name: row.created_by
+//     }
+//   }
+// });
+
+export const postMessages = async (message: Message): Promise<void> => {
+  const { _id, text, createdAt, user } = message
+  
+  console.log('Backend', _id, text, createdAt, user )
+  const res = await backendClient.post<any>(`messages`, {
+    id: _id,
+    text,
+    created_at: createdAt,
+    created_by: user.name
+
+  })
+}
+
+export const getMessages = async (): Promise<any> => {
+  const res = await backendClient.get<any>(`messages`)
+  console.log('Backend', res.data)
+  return res.data.messages
 }
 
 /**
@@ -29,14 +71,11 @@ export const getCardCollection = async (username: string): Promise<DBCard[]> => 
 
 export const getUsersStore = async (username: string): Promise<Object> => {
   const data = await backendClient.get<any>(`store/${username}`);
-  console.log('USER STORE', data);
   return data.data.message
 }
 
 export const getCardFeatured = async (username: string): Promise<string[]> => {
-  console.log('storeowner', username)
   const data = await backendClient.get<any>(`store/featured/${username}`)
-  console.log('Featured Card', data)
 
   if (data.data.message) {
     return data.data.message
@@ -45,12 +84,10 @@ export const getCardFeatured = async (username: string): Promise<string[]> => {
 }
 
 export const postFeaturedCard = async (storeName: string, featuredCardId: number | undefined): Promise<boolean> => {
-  console.log(storeName, featuredCardId)
   const data = await backendClient.post<any>('store/featured', {
     storeName,
     featuredCardId
   })
-  console.log('Set Featured', data)
   return data.data.message;
 }
 
@@ -67,12 +104,17 @@ export const testPostHelloFunc = async (name: string): Promise<string> => {
   return response.data
 }
 
+/**
+ * 
+ * LOGIN / REGISTER
+ * 
+ */
+
 export const sendLogin = async (username: string, password: string): Promise<User> => {
   const response = await backendClient.post<any>('/login', {
     username,
     password,
   });
-  console.log(response);
   if(!response.data.loginResult) {
     throw new Error("invalid login!");
   }
