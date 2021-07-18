@@ -91,15 +91,14 @@ export const postFeaturedCard = async (storeName: string, featuredCardId: number
 
 /**
  * 
- * TESTING LAMBDA
+ * VIEW STORES
  * 
  */
 
-export const testPostHelloFunc = async (name: string): Promise<string> => {
-  const response = await backendClient.post<any>('hello', {
-    name
-  });
-  return response.data
+export const getAllStores = async (): Promise<any> => {
+  const response = await backendClient.get<any>('store/viewStores');
+  console.log("response", response);
+  return response.data.message;
 }
 
 /**

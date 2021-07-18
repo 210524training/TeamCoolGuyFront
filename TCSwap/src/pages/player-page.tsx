@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TradePage from './trade-page';
 import MyCollectionPage from './player-colleciton-page';
 import ViewStoresPage from './stores-page';
+import ViewStoreNav from '../components/ViewStoreNav';
 
 const PlayerPage: React.FC<unknown> = () => {
 
@@ -20,8 +21,7 @@ const PlayerPage: React.FC<unknown> = () => {
       <Tab.Navigator>
         <Tab.Screen name="My Collection" component={MyCollectionPage} />
         <Tab.Screen name="Trades" component={TradePage} />
-        <Tab.Screen name="View Stores" component={ViewStoresPage} />
-        
+        <Tab.Screen name="View Stores" component={ViewStoreNav} /> 
       </Tab.Navigator>
     </>
   );
