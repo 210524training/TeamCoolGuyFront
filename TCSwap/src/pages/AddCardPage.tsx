@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { TextInput, StyleSheet, View, Text, ScrollView, Picker } from 'react-native';
+import { TextInput, StyleSheet, View, Text, ScrollView, Picker, Image } from 'react-native';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
-import HorizontialRuleWithText from '../components/HorizontialRuleWithText';
 import YGOCard from '../models/YGOCard';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { getCollectionAsync } from '../redux/slices/collection.slice';
 import { selectUser, UserState } from '../redux/slices/user.slice';
 import { getCardByFuzzyName } from '../remote/apis/YGOapi';
 import { addCardToCollection } from '../remote/Backend.api';
+import DropDownPicker from 'react-native-dropdown-picker'
 
 type props = {
 	navigation: any,
@@ -25,6 +25,9 @@ const AddCardPage: React.FC<props> = (props) => {
 	const [searchIndex, setSearchIndex] = useState<number>(0);
 	const [game, setGame] = useState<string>('Yu-Gi-Oh!');
 	const [condition, setCondition] = useState<string>('');
+
+	//This value is used to see if the dropdown for selecting game type is open ie you can see the dropdown
+	const [gamePickerOpen, setGamePickerOpen] = useState<boolean>(false);
 
 	const onTextChange = (query: string) => {
 		setSearchQuery(query);
@@ -68,6 +71,31 @@ const AddCardPage: React.FC<props> = (props) => {
 				<Banner text='Search for the card you want to add' />
 				<ScrollView>
 					<View style={styles.controls}>
+											{/* <Picker
+												selectedValue={game}
+												style={styles.item}
+												onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
+												<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
+											</Picker> */}
+											<DropDownPicker items={[
+												{
+													label: '',
+													value: 'Yu-Gi-Oh!',
+													icon: () => (<Image source={require('../assets/Yu-Gi-Oh.png')} style={styles.tinyLogo}></Image>)
+												},
+												// {
+												// 	label: '',
+												// 	value: 'Magic the Gathering',
+												// 	icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
+												// }
+											]
+											}
+											value={game}
+											open={gamePickerOpen}
+											setOpen={setGamePickerOpen}
+											setValue={setGame}
+											iconContainerStyle={{alignItems: 'center', padding:10}}
+											containerStyle={styles.picker}/>
 						<TextInput placeholder='Search by card name' 
 											style ={[styles.item]} 
 											onChangeText={onTextChange}/>
@@ -82,17 +110,11 @@ const AddCardPage: React.FC<props> = (props) => {
 								</View>
 								<CardDetailItemReusable data={cardData[searchIndex]} />
 								<View style={styles.container}>
-									<View style={styles.controls}>
-										<Picker
-											selectedValue={game}
-											style={styles.item}
-											onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
-											<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
-										</Picker>
-										<Text style={styles.description}>Card condition: </Text>
-										<TextInput style={styles.item} onChangeText={setCondition} placeholder='Mint' />
-										<ButtonBlackWhite text='Add card' functionality = {addCard}/>
-									</View>
+										<View style={styles.controls}>
+											<Text style={styles.description}>Card condition: </Text>
+											<TextInput style={styles.item} onChangeText={setCondition} placeholder='Mint' />
+											<ButtonBlackWhite text='Add card' functionality = {addCard}/>
+										</View>
 								</View>
 							</>
 						)
@@ -119,8 +141,8 @@ const styles = StyleSheet.create ({
     fontSize: 26,
   },
   tinyLogo: {
-    width: 50,
-    height: 75,
+    width: 150,
+    height: 50,
   },
   details: {
     flex: 1,
@@ -142,8 +164,15 @@ const styles = StyleSheet.create ({
     backgroundColor: "#d8d9d0",
   },
 	description: {
-		paddingVertical: 10,
-		fontSize: 24,
+		paddingVertical: 20,
+		paddingHorizontal: 14,
+		fontSize: 26,
+	},
+	picker: {
+		width: 240,
+		height: 80,
+		padding: 10,
+		flexDirection: 'row',
 	}
 })
 
