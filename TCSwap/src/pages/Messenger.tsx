@@ -1,27 +1,46 @@
 import * as React from 'react';
-import { Button, StyleSheet, TextInput, Text, View, Alert } from 'react-native';
+import { Button, StyleSheet, TextInput, Text, View, Alert, FlatList  } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useCallback, useEffect, useState } from 'react';
+import { GiftedChat, GiftedChatState, IMessage } from 'react-native-gifted-chat'
+import User from '../models/user';
+import { useAppSelector } from '../redux';
+import { postMessages, getMessages } from '../remote/Backend.api';
 
 const Messenger: React.FC<unknown> = () => {
 
-  const Tab = createBottomTabNavigator();
+  const user: User = useAppSelector((state) => {
+    return state.user as User
+})
 
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+
+    (async () => {
+      const data = await getMessages();
+      const sortData = data.reverse()
+      setMessages(sortData)
+    })()
+
+  })
+
+  const onSend = useCallback((messages = []) => {
+    // send to backend
+    postMessages(messages[0]);
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
+  }, [])
   return (
-    <>
-      <View>
-          <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
-      </View>
-    </>
-    
-  );
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: user.username,
+        name: user.username,
+      }}
+      renderUsernameOnMessage={true}
+    />
+  )
 }
 
 export default Messenger;
