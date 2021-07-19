@@ -1,5 +1,6 @@
 import axios from 'axios';
 import DBCard from '../models/DBCard';
+import Offer from '../models/Offer';
 import Message from '../models/Message';
 import { SearchCardResult } from '../models/SearchCardResult';
 import User from '../models/user';
@@ -25,6 +26,21 @@ export const addCardToCollection = async (username: string, cardID: string, game
 export const getCardCollection = async (username: string): Promise<DBCard[]> => {
   const collection = await backendClient.get<{ message: DBCard[] }>(`collections/${username}`);
   return collection.data.message;
+}
+
+/**
+ * 
+ * OFFERS SECTION
+ */
+
+ export const getOffers = async (username: string): Promise<Offer[]> => {
+  const offers = await backendClient.get<{message: Offer[]}>(`offers/${username}`);
+  return offers.data.message;
+}
+
+export const getRequests = async (username: string): Promise<Offer[]> => {
+  const offers = await backendClient.get<{message: Offer[]}>(`requests/${username}`);
+  return offers.data.message;
 }
 
 /**
