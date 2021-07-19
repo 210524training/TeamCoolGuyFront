@@ -34,9 +34,13 @@ const ViewStoreInventory: React.FC<props> = ({ navigation, route }) => {
                 console.log(card.id, item.featuredCardId)
                 return card.id === item.featuredCardId
             })
-            setFeaturedCard(Fcard[0].card_identifier); 
-            console.log(Fcard)
-            setOwnerCards(collection);
+            if(!(Fcard.length === 0)){
+                setFeaturedCard(Fcard[0].card_identifier); 
+                console.log(Fcard)
+            }
+                setOwnerCards(collection);
+            
+            
         })();
     }, []);
 
