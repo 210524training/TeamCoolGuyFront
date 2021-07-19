@@ -29,6 +29,19 @@ export const getCardCollection = async (username: string): Promise<DBCard[]> => 
 
 /**
  * 
+ * OFFERS SECTION
+ */
+
+ export const getOffers = async (username: string): Promise<void> => {
+  const offers = await backendClient.get<unknown>(`offers/${username}`);
+}
+
+export const getRequests = async (username: string): Promise<void> => {
+  const offers = await backendClient.get<unknown>(`requests/${username}`);
+}
+
+/**
+ * 
  * MESSANGER
  * 
  */
