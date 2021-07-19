@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Button, StyleSheet, TextInput, Text, View } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { TextInput, Text, View } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { loginAsync, logout, selectUser, UserState } from '../redux/slices/user.slice'; 
-import { useNavigation } from '@react-navigation/native';
+import { loginAsync, selectUser, UserState } from '../redux/slices/user.slice'; 
 import CustButton1 from '../components/CustButton1';
-import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
-import { testPostHelloFunc } from '../remote/Backend.api';
 import Banner from '../components/Banner';
 
 type Props = { navigation: any }
