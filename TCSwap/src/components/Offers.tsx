@@ -1,6 +1,11 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Button, StyleSheet, View, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
+import Offer from '../models/Offer';
+import { useAppSelector } from '../redux';
+import { UserState, selectUser } from '../redux/slices/user.slice';
+import { getOffers } from '../remote/Backend.api';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 import PlayerCardItem from './PlayerCardItem'
 
@@ -12,10 +17,22 @@ type Props = {
 }
 
 const Offers: React.FC<Props> = ({ navigation }) => {
+  const [offers, setOffers] = React.useState<Offer[]>();
+
+  const user = useAppSelector<UserState>(selectUser);
 
   const handleOnPress = () => {
     navigation.navigate('Details');
   }
+
+  useEffect(() => {
+    (async () => {
+      if(user) {
+        const data = await getOffers(user.username)
+        setOffers(data)
+      }
+    })()
+  },[])
 
   const renderItem = ({ item }) => {
 
@@ -32,7 +49,7 @@ const Offers: React.FC<Props> = ({ navigation }) => {
     <>
       <View>
           <FlatList 
-            data={DATA}
+            data={offers}
             renderItem={renderItem}
             keyExtractor={(item) => String(item.id)}
           >

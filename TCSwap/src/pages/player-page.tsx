@@ -1,16 +1,13 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Button, StyleSheet, TextInput, Text, View } from 'react-native';
 /* import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice'; */
-import { useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // import pages
 import TradePage from './trade-page';
 import MyCollectionPage from './player-colleciton-page';
-import ViewStoresPage from './stores-page';
 import ViewStoreNav from '../components/ViewStoreNav';
+import SearchCardPageMain from '../pages/search-card-page-main';
 
 const PlayerPage: React.FC<unknown> = () => {
 
@@ -20,6 +17,7 @@ const PlayerPage: React.FC<unknown> = () => {
     <>
       <Tab.Navigator>
         <Tab.Screen name="My Collection" component={MyCollectionPage} />
+        <Tab.Screen name="Find Card" component={SearchCardPageMain} /> 
         <Tab.Screen name="Trades" component={TradePage} />
         <Tab.Screen name="View Stores" component={ViewStoreNav} /> 
       </Tab.Navigator>

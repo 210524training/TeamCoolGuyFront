@@ -1,25 +1,45 @@
 import * as React from 'react';
-import { Button, StyleSheet, TextInput, Text, View, Alert, SafeAreaView, ScrollView, FlatList, TouchableOpacity, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Button, StyleSheet, View, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
+import Offer from '../models/Offer';
+import { useAppSelector } from '../redux';
+import { UserState, selectUser } from '../redux/slices/user.slice';
+import { getRequests } from '../remote/Backend.api';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 import PlayerCardItem from './PlayerCardItem'
+
+
 
 type Props = {
   item: any
   navigation: any
 }
 
-const Requests: React.FC<Props> = ({ navigation }) => {
+const Offers: React.FC<Props> = ({ navigation }) => {
+  const [requests, setRequests] = React.useState<Offer[]>();
 
-  const [selectedId, setSelectedId] = React.useState(null);
+  const user = useAppSelector<UserState>(selectUser);
 
   const handleOnPress = () => {
     navigation.navigate('Details');
   }
 
+  useEffect(() => {
+    (async () => {
+      if(user) {
+        const data = await getRequests(user.username)
+        setRequests(data)
+      }
+    })()
+  },[])
+
+  const pressHandler = (item: any) => {
+    navigation.navigate('Inventory',{item});
+  }
+
+
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#022873" : "#d8d9d0";
-    const color = item.id === selectedId ? 'white' : 'black';
 
     return (
       <PlayerCardItem
@@ -34,10 +54,9 @@ const Requests: React.FC<Props> = ({ navigation }) => {
     <>
       <View>
           <FlatList 
-            data={DATA}
+            data={requests}
             renderItem={renderItem}
             keyExtractor={(item) => String(item.id)}
-            extraData={selectedId}
           >
           </FlatList>
       </View>
@@ -46,7 +65,7 @@ const Requests: React.FC<Props> = ({ navigation }) => {
   );
 }
 
-export default Requests;
+export default Offers;
 
 const styles = StyleSheet.create({
   button: {
