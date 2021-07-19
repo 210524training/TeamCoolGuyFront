@@ -29,7 +29,13 @@ const SearchCardPage: React.FC<props> = (props) => {
 		try {
 			setSearchIndex(0);
 			const card = await searchCardAcrossUsers(searchQuery);
-			setCardData(card);
+            if(card.length > 0){
+                setCardData(card);
+            }else{
+                setCardData([]);
+                alert('No results found!');
+            }
+			
 		}
 		catch(error) {
 			console.log('Unable to find card', error);
@@ -51,6 +57,7 @@ const SearchCardPage: React.FC<props> = (props) => {
 	}
 
 	return(
+        
 			<>
 				<Banner text='Search for the card you want across other players and stores' />
 				<ScrollView>

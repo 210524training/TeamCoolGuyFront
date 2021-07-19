@@ -131,8 +131,14 @@ export const registerUser = async (user: User): Promise<boolean> => {
   return response.data.registerResult as boolean;
 }
 
-export const searchCardAcrossUsers =  async (name: string): Promise<SearchCardResult[]>=>{
-  return [{
+export const searchCardAcrossUsers =  async (searchStr: string): Promise<SearchCardResult[]>=>{
+  const result = await backendClient.get<any>(`cards/${searchStr}`);
+  console.log(result.data.cards);
+  return result.data.cards;
+}
+
+/* 
+[{
     id: 1,
     card_owner: 'bob99',
     card_identifier: 'Blue-Eyes Alternative Ultimate Dragon',
@@ -151,4 +157,4 @@ export const searchCardAcrossUsers =  async (name: string): Promise<SearchCardRe
     role: 'player',
   }
 ];
-}
+*/

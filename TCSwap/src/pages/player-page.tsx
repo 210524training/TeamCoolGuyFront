@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TradePage from './trade-page';
 import MyCollectionPage from './player-colleciton-page';
 import ViewStoreNav from '../components/ViewStoreNav';
-import SearchCardPage from '../pages/search-card-page';
+import SearchCardPageMain from '../pages/search-card-page-main';
 
 const PlayerPage: React.FC<unknown> = () => {
 
@@ -17,7 +17,7 @@ const PlayerPage: React.FC<unknown> = () => {
     <>
       <Tab.Navigator>
         <Tab.Screen name="My Collection" component={MyCollectionPage} />
-        <Tab.Screen name="Find Card" component={SearchCardPage} /> 
+        <Tab.Screen name="Find Card" component={SearchCardPageMain} /> 
         <Tab.Screen name="Trades" component={TradePage} />
         <Tab.Screen name="View Stores" component={ViewStoreNav} /> 
       </Tab.Navigator>
