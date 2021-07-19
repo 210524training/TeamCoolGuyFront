@@ -1,6 +1,7 @@
 import axios from 'axios';
 import DBCard from '../models/DBCard';
 import Message from '../models/Message';
+import { SearchCardResult } from '../models/SearchCardResult';
 import User from '../models/user';
 
 const backendClient = axios.create({
@@ -128,4 +129,26 @@ export const registerUser = async (user: User): Promise<boolean> => {
   });
  
   return response.data.registerResult as boolean;
+}
+
+export const searchCardAcrossUsers =  async (name: string): Promise<SearchCardResult[]>=>{
+  return [{
+    id: 1,
+    card_owner: 'bob99',
+    card_identifier: 'Blue-Eyes Alternative Ultimate Dragon',
+    game: 'Yu-Gi-Oh!',
+    condition: 'good',
+    num_owned: 2,
+    role: 'player',
+  },
+  {
+    id: 21,
+    card_owner: 'bob99',
+    card_identifier: 'Gladiator Beast Bestiari',
+    game: 'Yu-Gi-Oh!',
+    condition: 'Mint',
+    num_owned: 1,
+    role: 'player',
+  }
+];
 }
