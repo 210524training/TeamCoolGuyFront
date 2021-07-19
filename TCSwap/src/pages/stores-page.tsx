@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, StyleSheet, TextInput, Text, View, FlatList, TouchableOpacity } from 'react-native';
 /* import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice'; */
 import { useNavigation } from '@react-navigation/native';
 import styles from '../components/card-detail-item-reuse/CardDetailItem.styles';
 import Banner from '../components/Banner';
+import { getAllStores } from '../remote/Backend.api';
+import store from '../redux/store';
 
 type Props = { navigation: any }
 
@@ -13,27 +15,36 @@ type Props = { navigation: any }
 const ViewStoresPage: React.FC<Props> = ({ navigation }) => {
 
   const [stores, setStores] = useState([
-    { name: 'GameStop', id: '1', desc: 'The best store' },
-    { name: 'Tappers Retro', id: '2', desc: 'The best store' },
-    { name: 'Rainy Day', id: '3', desc: 'The best store' },
-    { name: 'Black Ops', id: '4', desc: 'The best store' },
-    { name: 'Guardian', id: '5', desc: 'The best store' },
+
   ]);
 
-  const pressHandler = (id: string) => {
-    navigation.navigate('Collection');
+  const [collection, setCollection] = useState([
+
+  ]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await getAllStores()
+      setStores(data)
+    })()
+  },[])
+  useEffect(() => {
+    setCollection(stores)
+  },[stores])
+
+  const pressHandler = (item: any) => {
+    navigation.navigate('Inventory',{item});
   }
 
   return (
 
     <View /* style={styles.storesListStyle} */>
-      <Banner text = "Stores"/>
+      <Banner text="Stores" />
       <FlatList
-        keyExtractor={(item) => item.id}
-        data={stores}
+        data={collection}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => pressHandler(item.id)}>
-            <Text style={[adFontes.storeText, styles.container]}>{item.name}</Text>
+          <TouchableOpacity onPress={() => pressHandler(item)}>
+            <Text style={[adFontes.storeText, styles.container]}>{item.storeName}</Text>
           </TouchableOpacity>
         )}
       />
