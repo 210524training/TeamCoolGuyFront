@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { Button, StyleSheet, View, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
 import Offer from '../models/Offer';
-import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
-import TradeItem from './TradeItem';
-import { getOffers } from '../remote/Backend.api'
-import { User } from 'react-native-gifted-chat';
-import { useAppDispatch, useAppSelector } from '../redux';
+import { useAppSelector } from '../redux';
 import { UserState, selectUser } from '../redux/slices/user.slice';
+import { getOffers } from '../remote/Backend.api';
+import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
+import PlayerCardItem from './PlayerCardItem'
 
 
 
@@ -18,34 +17,32 @@ type Props = {
 }
 
 const Offers: React.FC<Props> = ({ navigation }) => {
-  
-  const [offers, setOffers] = useState<Offer[]>();
+  const [offers, setOffers] = React.useState<Offer[]>();
 
-  const dispatch = useAppDispatch();
-
-  const user = useAppSelector<UserState>(selectUser); 
+  const user = useAppSelector<UserState>(selectUser);
 
   const handleOnPress = () => {
     navigation.navigate('Details');
   }
 
-  const handleOffers = async () => {
-    if(user) {
-      const dbOffers = await getOffers(user.username);
-      setOffers(dbOffers);
-    }
-  }
-
   useEffect(() => {
     (async () => {
-      await handleOffers();
-    })
-  }, [])
+      if(user) {
+        const data = await getOffers(user.username)
+        setOffers(data)
+      }
+    })()
+  },[])
+
+  const pressHandler = (item: any) => {
+    navigation.navigate('Inventory',{item});
+  }
+
 
   const renderItem = ({ item }) => {
 
     return (
-      <TradeItem
+      <PlayerCardItem
         item={item}
         onPress={handleOnPress}
         navigation={ navigation }
@@ -57,7 +54,7 @@ const Offers: React.FC<Props> = ({ navigation }) => {
     <>
       <View>
           <FlatList 
-            data={DATA}
+            data={offers}
             renderItem={renderItem}
             keyExtractor={(item) => String(item.id)}
           >
