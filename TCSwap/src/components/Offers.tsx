@@ -34,11 +34,6 @@ const Offers: React.FC<Props> = ({ navigation }) => {
     })()
   },[])
 
-  const pressHandler = (item: any) => {
-    navigation.navigate('Inventory',{item});
-  }
-
-
   const renderItem = ({ item }) => {
 
     return (
