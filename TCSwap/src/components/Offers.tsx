@@ -1,8 +1,14 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Button, StyleSheet, View, FlatList } from 'react-native';
 import DATA from '../../temp-card-data.json'
+import Offer from '../models/Offer';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
-import PlayerCardItem from './PlayerCardItem'
+import TradeItem from './TradeItem';
+import { getOffers } from '../remote/Backend.api'
+import { User } from 'react-native-gifted-chat';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { UserState, selectUser } from '../redux/slices/user.slice';
 
 
 
@@ -12,15 +18,34 @@ type Props = {
 }
 
 const Offers: React.FC<Props> = ({ navigation }) => {
+  
+  const [offers, setOffers] = useState<Offer[]>();
+
+  const dispatch = useAppDispatch();
+
+  const user = useAppSelector<UserState>(selectUser); 
 
   const handleOnPress = () => {
     navigation.navigate('Details');
   }
 
+  const handleOffers = async () => {
+    if(user) {
+      const dbOffers = await getOffers(user.username);
+      setOffers(dbOffers);
+    }
+  }
+
+  useEffect(() => {
+    (async () => {
+      await handleOffers();
+    })
+  }, [])
+
   const renderItem = ({ item }) => {
 
     return (
-      <PlayerCardItem
+      <TradeItem
         item={item}
         onPress={handleOnPress}
         navigation={ navigation }
