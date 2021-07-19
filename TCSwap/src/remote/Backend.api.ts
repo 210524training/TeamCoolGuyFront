@@ -2,6 +2,7 @@ import axios from 'axios';
 import DBCard from '../models/DBCard';
 import Offer from '../models/Offer';
 import Message from '../models/Message';
+import { SearchCardResult } from '../models/SearchCardResult';
 import User from '../models/user';
 
 const backendClient = axios.create({
@@ -107,15 +108,14 @@ export const postFeaturedCard = async (storeName: string, featuredCardId: number
 
 /**
  * 
- * TESTING LAMBDA
+ * VIEW STORES
  * 
  */
 
-export const testPostHelloFunc = async (name: string): Promise<string> => {
-  const response = await backendClient.post<any>('hello', {
-    name
-  });
-  return response.data
+export const getAllStores = async (): Promise<any> => {
+  const response = await backendClient.get<any>('store/viewStores');
+  console.log("response", response);
+  return response.data.message;
 }
 
 /**
@@ -146,3 +146,31 @@ export const registerUser = async (user: User): Promise<boolean> => {
  
   return response.data.registerResult as boolean;
 }
+
+export const searchCardAcrossUsers =  async (searchStr: string): Promise<SearchCardResult[]>=>{
+  const result = await backendClient.get<any>(`cards/${searchStr}`);
+  console.log(result.data.cards);
+  return result.data.cards;
+}
+
+/* 
+[{
+    id: 1,
+    card_owner: 'bob99',
+    card_identifier: 'Blue-Eyes Alternative Ultimate Dragon',
+    game: 'Yu-Gi-Oh!',
+    condition: 'good',
+    num_owned: 2,
+    role: 'player',
+  },
+  {
+    id: 21,
+    card_owner: 'bob99',
+    card_identifier: 'Gladiator Beast Bestiari',
+    game: 'Yu-Gi-Oh!',
+    condition: 'Mint',
+    num_owned: 1,
+    role: 'player',
+  }
+];
+*/
