@@ -13,6 +13,17 @@ export const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: 'black',
   },
+  buttonSmall: {
+    margin: 5,
+    width: 75,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+  },
   text: {
     fontSize: 16,
     lineHeight: 21,
