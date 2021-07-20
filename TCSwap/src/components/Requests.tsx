@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, View, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import DATA from '../../temp-card-data.json'
 import Offer from '../models/Offer';
 import { useAppSelector } from '../redux';
 import { UserState, selectUser } from '../redux/slices/user.slice';
 import { getRequests } from '../remote/Backend.api';
+import styles from '../components/card-detail-item-reuse/CardDetailItem.styles';
 import ButtonBlackWhite from './button-black-white/ButtonBlackWhite';
 import PlayerCardItem from './PlayerCardItem'
 
@@ -16,7 +17,7 @@ type Props = {
   navigation: any
 }
 
-const Offers: React.FC<Props> = ({ navigation }) => {
+const Requests: React.FC<Props> = ({ navigation }) => {
   const [requests, setRequests] = React.useState<Offer[]>();
 
   const user = useAppSelector<UserState>(selectUser);
@@ -34,28 +35,16 @@ const Offers: React.FC<Props> = ({ navigation }) => {
     })()
   },[])
 
-  const pressHandler = (item: any) => {
-    navigation.navigate('Inventory',{item});
-  }
-
-
-  const renderItem = ({ item }) => {
-
-    return (
-      <PlayerCardItem
-        item={item}
-        onPress={handleOnPress}
-        navigation={ navigation }
-      />
-    );
-  };
-
   return (
     <>
       <View>
           <FlatList 
             data={requests}
-            renderItem={renderItem}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleOnPress}>
+                <Text style={[adFontes.text, styles.container]}>{item.decider}</Text>
+              </TouchableOpacity>
+            )}
             keyExtractor={(item) => String(item.id)}
           >
           </FlatList>
@@ -65,29 +54,11 @@ const Offers: React.FC<Props> = ({ navigation }) => {
   );
 }
 
-export default Offers;
+export default Requests;
 
-const styles = StyleSheet.create({
-  button: {
-    margin: 5,
-    width: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: 'black',
-  },
+const adFontes = StyleSheet.create({
   text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  controls: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    fontSize: 20,
+    fontWeight: "500",
   }
 });

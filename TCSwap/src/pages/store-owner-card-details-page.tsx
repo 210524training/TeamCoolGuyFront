@@ -1,12 +1,15 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { ScrollView, Text, StyleSheet, View } from 'react-native';
+import { User } from 'react-native-gifted-chat';
 import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import StoreOptions from '../components/StoreOptions';
 import YGOCard from '../models/YGOCard';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { getCollectionAsync } from '../redux/slices/collection.slice';
 import { getCardByName } from '../remote/apis/YGOapi';
-import { postFeaturedCard } from '../remote/Backend.api';
+import { postFeaturedCard, removeCardFromCollections } from '../remote/Backend.api';
 
 type Props = {
   route: any,
@@ -14,7 +17,8 @@ type Props = {
 }
 
 const StoreOwnerCardDetails: React.FC<Props>= ({ route, navigation }) => {
-  const { item, setFeaturedCard } = route.params;
+  const dispatch = useAppDispatch(); 
+  const { item, setFeaturedCard, user } = route.params;
 
   const [cardDetails, setCardDetails] = useState<YGOCard[]>([]);
   const [cardData, setCardData] = useState<YGOCard[]>([]);
@@ -46,15 +50,16 @@ const StoreOwnerCardDetails: React.FC<Props>= ({ route, navigation }) => {
   }, [cardData])
 
   const handleSetFeaturedCard = (card: YGOCard[]) => {
-    // TODO: IMPLEMENT TO CHANGE IN DB
-    console.log(cardDetails)
     postFeaturedCard('Robert`s Emporium of Cards', item.id)
     setFeaturedCard([cardDetails[0].name])
     navigation.navigate('Manage Store', {card})
   }
 
-  const handleRemove = () => {
-    // TODO: IMPLEMENT TO REMOVE FROM DB
+  const handleRemove = async () => {
+    const res = await removeCardFromCollections(user.username, item)
+    console.log(res)
+    await dispatch(getCollectionAsync(user.username));
+    navigation.navigate('Manage Store')
   }
 
   return (
@@ -93,3 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
 });
+
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}

@@ -28,6 +28,15 @@ export const getCardCollection = async (username: string): Promise<DBCard[]> => 
   return collection.data.message;
 }
 
+export const removeCardFromCollections= async (username: string, card: DBCard): Promise<boolean> => {
+  console.log(username, card)
+  const response = await backendClient.post<{message: boolean}>(`collections/remove/${username}`, {
+    cardID: card.card_identifier,
+    condition: card.condition,
+  });
+  return response.data.message;
+}
+
 /**
  * 
  * OFFERS SECTION
