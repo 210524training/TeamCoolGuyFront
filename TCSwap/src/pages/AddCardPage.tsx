@@ -70,7 +70,7 @@ const AddCardPage: React.FC<props> = (props) => {
 			<>
 				<Banner text='Search for the card you want to add' />
 				<ScrollView>
-				<View style={styles.dropMenuWrapper}>
+					<View style={styles.dropMenuWrapper}>
 												<DropDownPicker items={[
 													{
 														label: '',
@@ -93,12 +93,8 @@ const AddCardPage: React.FC<props> = (props) => {
 												setValue={setGame}
 												iconContainerStyle={{alignItems: 'center', padding:10, }}
 												containerStyle={styles.picker}
-
-
-												dropDownDirection="AUTO"
-												bottomOffset={-500}
 											/>
-										</View>
+					</View>
 					<View style={styles.controls}>
 											{/* <Picker
 												selectedValue={game}
