@@ -13,7 +13,7 @@ import PlayerCardItem from './PlayerCardItem'
 
 
 type Props = {
-  item: any
+  item: any,
   navigation: any
 }
 
@@ -22,8 +22,8 @@ const Offers: React.FC<Props> = ({ navigation }) => {
 
   const user = useAppSelector<UserState>(selectUser);
 
-  const handleOnPress = () => {
-    navigation.navigate('Details');
+  const handleOnPress = (trade: Offer) => {
+    navigation.navigate('Details', { trade });
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Offers: React.FC<Props> = ({ navigation }) => {
           <FlatList 
             data={offers}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleOnPress}>
+              <TouchableOpacity onPress={() => handleOnPress(item)}>
                 <Text style={[adFontes.text, styles.container]}>{item.requestor}</Text>
               </TouchableOpacity>
             )}

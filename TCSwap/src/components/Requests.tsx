@@ -13,24 +13,24 @@ import PlayerCardItem from './PlayerCardItem'
 
 
 type Props = {
-  item: any
+  item: any,
   navigation: any
 }
 
 const Requests: React.FC<Props> = ({ navigation }) => {
-  const [requests, setRequests] = React.useState<Offer[]>();
+  const [offers, setOffers] = React.useState<Offer[]>();
 
   const user = useAppSelector<UserState>(selectUser);
 
-  const handleOnPress = () => {
-    navigation.navigate('Details');
+  const handleOnPress = (trade: Offer) => {
+    navigation.navigate('Details', { trade });
   }
 
   useEffect(() => {
     (async () => {
       if(user) {
         const data = await getRequests(user.username)
-        setRequests(data)
+        setOffers(data)
       }
     })()
   },[])
@@ -39,10 +39,10 @@ const Requests: React.FC<Props> = ({ navigation }) => {
     <>
       <View>
           <FlatList 
-            data={requests}
+            data={offers}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleOnPress}>
-                <Text style={[adFontes.text, styles.container]}>{item.decider}</Text>
+              <TouchableOpacity onPress={() => handleOnPress(item)}>
+                <Text style={[adFontes.text, styles.container]}>{item.requestor}</Text>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => String(item.id)}

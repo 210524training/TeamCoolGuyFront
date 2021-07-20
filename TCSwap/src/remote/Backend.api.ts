@@ -52,6 +52,11 @@ export const getRequests = async (username: string): Promise<Offer[]> => {
   return offers.data.message;
 }
 
+export const acceptOffer = async (Offer: Offer): Promise<boolean> => {
+  const offer = await backendClient.post<{message: boolean}>(`offers/accept`, { Offer });
+  return offer.data.message as boolean;
+}
+
 /**
  * 
  * MESSANGER
