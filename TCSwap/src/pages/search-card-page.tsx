@@ -6,17 +6,20 @@ import SearchCardDetailItem from '../components/card-detail-item-reuse/SearchCar
 import { SearchCardResult } from '../models/SearchCardResult';
 import { searchCardAcrossUsers } from '../remote/Backend.api';
 import DropDownPicker from 'react-native-dropdown-picker'
+import { useAppSelector } from '../redux';
+import { selectUser, UserState } from '../redux/slices/user.slice';
 
 type props = {
 	navigation: any,
 }
 
-const SearchCardPage: React.FC<props> = (props) => {
+const SearchCardPage: React.FC<props> = ({navigation}) => {
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [cardData, setCardData] = useState<SearchCardResult[]>();
 	const [searchIndex, setSearchIndex] = useState<number>(0);
 	const [game, setGame] = useState<string>('Yu-Gi-Oh!');
+    const user = useAppSelector<UserState>(selectUser);
 
 	//This value is used to see if the dropdown for selecting game type is open ie you can see the dropdown
 	const [gamePickerOpen, setGamePickerOpen] = useState<boolean>(false);
@@ -42,7 +45,15 @@ const SearchCardPage: React.FC<props> = (props) => {
 		}
 	}
 
-	
+	const onTrade = () => {
+        if(cardData){
+            const tradeCard = cardData[searchIndex];
+            console.log('fart1');
+            console.log(tradeCard);
+           navigation.navigate('Make Trade',{card: tradeCard}); 
+        }
+        
+    }
 
 	const incrementSearchIndex = () => {
 		if(cardData && searchIndex < cardData.length-1) {
@@ -103,6 +114,9 @@ const SearchCardPage: React.FC<props> = (props) => {
 									<ButtonBlackWhite text='->' functionality={incrementSearchIndex}/>
 								</View>
 								<SearchCardDetailItem card={cardData[searchIndex]} />
+                                {(cardData[searchIndex].role==='store owner'||cardData[searchIndex].card_owner === user?.username)?(<></>):
+                                    <ButtonBlackWhite text='Trade for Card' functionality = {() => {onTrade()}}/>
+                                }
 								
 							</>
 						)
