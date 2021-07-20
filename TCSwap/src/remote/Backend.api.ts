@@ -167,6 +167,12 @@ export const searchCardAcrossUsers =  async (searchStr: string): Promise<SearchC
   return result.data.cards;
 }
 
+export const createOffer=  async (newOffer: Offer): Promise<boolean>=>{
+  const result = await backendClient.put<any>(`offers`,{newOffer});
+  console.log(result.data.message);
+  return result.data.message as boolean;
+}
+
 /* 
 [{
     id: 1,

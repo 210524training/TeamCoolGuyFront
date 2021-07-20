@@ -3,6 +3,6 @@ export default interface DBCard {
   card_owner: string,
   condition: string,
   game: string,
-  id: string,
+  id: number,
   num_owned: number,
 }
