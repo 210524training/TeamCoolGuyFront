@@ -5,11 +5,12 @@ import { styles } from './ButtonBlackWhite.styles'
 type Props = {
   functionality: any;
   text: string;
+  small?:boolean;
 }
 
-const ButtonBlackWhite: React.FC<Props> =({ functionality, text }) => {
+const ButtonBlackWhite: React.FC<Props> =({ functionality, text,small }) => {
   return (
-    <TouchableOpacity  style={styles.button} onPress={functionality}>
+    <TouchableOpacity  style={small?styles.buttonSmall:styles.button} onPress={functionality}>
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   )  

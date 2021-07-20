@@ -16,7 +16,7 @@ type props = {
 const SearchCardPage: React.FC<props> = ({navigation}) => {
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
-	const [cardData, setCardData] = useState<SearchCardResult[]>();
+	const [cardData, setCardData] = useState<SearchCardResult[]>([]);
 	const [searchIndex, setSearchIndex] = useState<number>(0);
 	const [game, setGame] = useState<string>('Yu-Gi-Oh!');
     const user = useAppSelector<UserState>(selectUser);
@@ -46,9 +46,8 @@ const SearchCardPage: React.FC<props> = ({navigation}) => {
 	}
 
 	const onTrade = () => {
-        if(cardData){
+        if(cardData.length>0){
             const tradeCard = cardData[searchIndex];
-            console.log('fart1');
             console.log(tradeCard);
            navigation.navigate('Make Trade',{card: tradeCard}); 
         }
@@ -72,7 +71,7 @@ const SearchCardPage: React.FC<props> = ({navigation}) => {
 			<>
 				<Banner text='Search for the card you want across other players and stores' />
 				<ScrollView>
-					<View style={styles.controls}>
+					<View style={styles.dropMenuWrapper}>
 											{/* <Picker
 												selectedValue={game}
 												style={styles.item}
@@ -104,14 +103,17 @@ const SearchCardPage: React.FC<props> = ({navigation}) => {
 						<ButtonBlackWhite text='Submit' functionality = {() => {onSubmit()}}/>
 					</View>
 					{
-						cardData ? (
+						cardData.length>0 ? (
 							<>
 								<View style={styles.controls}>
 									<ButtonBlackWhite text='<-' functionality={decrementSearchIndex}/>
-                                    <Text>{cardData.length>0?(<>
+                                    
+									<ButtonBlackWhite text='->' functionality={incrementSearchIndex}/>
+								</View>
+								<View style={{alignItems: 'center',}}>
+									<Text>{cardData.length>0?(<>
                                         {`Result ${searchIndex+1} out of ${cardData.length}`}
                                     </>):(<></>)}</Text>
-									<ButtonBlackWhite text='->' functionality={incrementSearchIndex}/>
 								</View>
 								<SearchCardDetailItem card={cardData[searchIndex]} />
                                 {(cardData[searchIndex].role==='store owner'||cardData[searchIndex].card_owner === user?.username)?(<></>):
@@ -175,7 +177,13 @@ const styles = StyleSheet.create ({
 		height: 80,
 		padding: 10,
 		flexDirection: 'row',
-	}
+	},
+	dropMenuWrapper: {
+		marginTop: 10,
+		marginBottom: 50,
+		flex: 1,
+		alignItems: 'center',
+	},
 })
 
 export default SearchCardPage;
