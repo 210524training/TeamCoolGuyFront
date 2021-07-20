@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { Pressable, Text, StyleSheet, View, ScrollView } from 'react-native';
+import { Pressable, Text, StyleSheet, View, ScrollView, Image } from 'react-native';
 import DBCard from '../models/DBCard';
+import { YGOCARD_WIDTH, YGOCARD_HEIGHT } from '../models/YGOCard';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { getCollectionAsync, selectCollection } from "../redux/slices/collection.slice";
 import { selectUser, UserState } from '../redux/slices/user.slice';
@@ -31,9 +32,18 @@ const Collection: React.FC<props> = (props) => {
     <Pressable onPress={() => { props.navigation.navigate('Card Info', { cardName: card.card_identifier }); } }
                style = {styles.item}
                key = {card.card_identifier}>
+      {
+        card.game === 'Yu-Gi-Oh!' ?
+        (<Image style={styles.cardImage} source={require('../assets/yugioh-card-back.png')} />)
+        :
+        (<></>)
+      }
       <View style={styles.details} key = {card.card_identifier}>
         <Text style={[styles.title]} key = {card.card_identifier}>
           {card.card_identifier}
+        </Text>
+        <Text style={[styles.title]} key = {card.card_identifier}>
+          {'x' + card.num_owned.toString()}
         </Text>
       </View>
     </Pressable>)
@@ -81,6 +91,11 @@ const styles = StyleSheet.create ({
   },
   container: {
     flex: 1
+  },
+  cardImage: {
+    width: YGOCARD_WIDTH*1,
+    height: YGOCARD_HEIGHT*1,
+    margin: 20,
   },
 })
 
