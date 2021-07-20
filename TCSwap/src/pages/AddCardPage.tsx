@@ -4,12 +4,17 @@ import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import YGOCard from '../models/YGOCard';
+import MagicCard from '../models/MagicCard';
 import { useAppDispatch, useAppSelector } from '../redux';
 import { getCollectionAsync } from '../redux/slices/collection.slice';
 import { selectUser, UserState } from '../redux/slices/user.slice';
-import { getCardByFuzzyName } from '../remote/apis/YGOapi';
+import { getCardByFuzzyName as getYGOCardFuzzy } from '../remote/apis/YGOapi';
+import { getCardByFuzzyName as getMTGCardFuzzy } from '../remote/apis/MTGapi';
 import { addCardToCollection } from '../remote/Backend.api';
 import DropDownPicker from 'react-native-dropdown-picker'
+import MagicCardDetailItem from '../components/card-detail-item-reuse/MagicCardDetailItem';
+
+type anyCard = YGOCard | MagicCard;
 
 type props = {
 	navigation: any,
@@ -21,7 +26,7 @@ const AddCardPage: React.FC<props> = (props) => {
 	const user = useAppSelector<UserState>(selectUser);
 
 	const [searchQuery, setSearchQuery] = useState<string>('');
-	const [cardData, setCardData] = useState<YGOCard[]>();
+	const [cardData, setCardData] = useState<anyCard[]>();
 	const [searchIndex, setSearchIndex] = useState<number>(0);
 	const [game, setGame] = useState<string>('Yu-Gi-Oh!');
 	const [condition, setCondition] = useState<string>('');
@@ -35,9 +40,16 @@ const AddCardPage: React.FC<props> = (props) => {
 
 	const onSubmit = async () => {
 		try {
-			setSearchIndex(0);
-			const card = await getCardByFuzzyName(searchQuery);
-			setCardData(card.data);
+			if(game === 'Yu-Gi-Oh!') {
+				setSearchIndex(0);
+				const card = await getYGOCardFuzzy(searchQuery);
+				setCardData(card.data);
+			}
+			else if(game === 'Magic the Gathering') {
+				setSearchIndex(0);
+				const card = await getMTGCardFuzzy(searchQuery);
+				setCardData(card);
+			}
 		}
 		catch(error) {
 			console.log('Unable to find card', error);
@@ -45,13 +57,20 @@ const AddCardPage: React.FC<props> = (props) => {
 	}
 
 	const addCard = async () => {
-		if(cardData) {
-			if(user) {
-				await addCardToCollection(user.username, cardData[searchIndex].name, game, condition);
-				await dispatch(getCollectionAsync(user.username));
-				props.navigation.navigate('Collection');
+		if(game !== 'Magic the Gathering') {
+			if(cardData) {
+				if(user) {
+					await addCardToCollection(user.username, cardData[searchIndex].name, game, condition);
+					await dispatch(getCollectionAsync(user.username));
+					props.navigation.navigate('Collection');
+				}
 			}
 		}
+	}
+
+	const onChange = (game: string) => {
+		setGame(game);
+		setCardData(undefined);
 	}
 
 	const incrementSearchIndex = () => {
@@ -70,7 +89,7 @@ const AddCardPage: React.FC<props> = (props) => {
 			<>
 				<Banner text='Search for the card you want to add' />
 				<ScrollView>
-				<View style={styles.dropMenuWrapper}>
+					<View style={styles.dropMenuWrapper}>
 												<DropDownPicker items={[
 													{
 														label: '',
@@ -93,12 +112,8 @@ const AddCardPage: React.FC<props> = (props) => {
 												setValue={setGame}
 												iconContainerStyle={{alignItems: 'center', padding:10, }}
 												containerStyle={styles.picker}
-
-
-												dropDownDirection="AUTO"
-												bottomOffset={-500}
 											/>
-										</View>
+					</View>
 					<View style={styles.controls}>
 											{/* <Picker
 												selectedValue={game}
@@ -106,8 +121,25 @@ const AddCardPage: React.FC<props> = (props) => {
 												onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
 												<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
 											</Picker> */}
-											
-											
+											<DropDownPicker items={[
+												{
+													label: '',
+													value: 'Yu-Gi-Oh!',
+													icon: () => (<Image source={require('../assets/Yu-Gi-Oh.png')} style={styles.tinyLogo}></Image>)
+												},
+												{
+													label: '',
+													value: 'Magic the Gathering',
+													icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
+												}
+											]
+											}
+											value={game}
+											open={gamePickerOpen}
+											setOpen={setGamePickerOpen}
+											setValue={onChange}
+											iconContainerStyle={{alignItems: 'center', padding:10}}
+											containerStyle={styles.picker}/>
 						<TextInput placeholder='Search by card name' 
 											style ={[styles.item]} 
 											onChangeText={onTextChange}/>
@@ -120,7 +152,12 @@ const AddCardPage: React.FC<props> = (props) => {
 									<ButtonBlackWhite text='<-' functionality={decrementSearchIndex}/>
 									<ButtonBlackWhite text='->' functionality={incrementSearchIndex}/>
 								</View>
-								<CardDetailItemReusable data={cardData[searchIndex]} />
+								{
+									(game === 'Yu-Gi-Oh!') ?
+									(<CardDetailItemReusable data={cardData[searchIndex] as YGOCard} />)
+									:
+									(<MagicCardDetailItem data={cardData[searchIndex] as MagicCard} />)
+								}
 								<View style={styles.container}>
 										<View style={styles.controls}>
 											<Text style={styles.description}>Card condition: </Text>

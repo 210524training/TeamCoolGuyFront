@@ -72,34 +72,39 @@ const SearchCardPage: React.FC<props> = ({navigation}) => {
 				<Banner text='Search for the card you want across other players and stores' />
 				<ScrollView>
 					<View style={styles.dropMenuWrapper}>
+					<DropDownPicker items={[
+							{
+								label: '',
+								value: 'Yu-Gi-Oh!',
+								icon: () => (<Image source={require('../assets/Yu-Gi-Oh.png')} style={styles.tinyLogo}></Image>)
+							},
+							// {
+							// 	label: '',
+							// 	value: 'Magic the Gathering',
+							// 	icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
+							// }
+						]
+						}
+						value={game}
+						open={gamePickerOpen}
+						setOpen={setGamePickerOpen}
+						setValue={setGame}
+						iconContainerStyle={{alignItems: 'center', padding:10}}
+						containerStyle={styles.picker}
+					/>
+					</View>
+					<View style={styles.controls}>
 											{/* <Picker
 												selectedValue={game}
 												style={styles.item}
 												onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
 												<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
 											</Picker> */}
-											<DropDownPicker items={[
-												{
-													label: '',
-													value: 'Yu-Gi-Oh!',
-													icon: () => (<Image source={require('../assets/Yu-Gi-Oh.png')} style={styles.tinyLogo}></Image>)
-												},
-												// {
-												// 	label: '',
-												// 	value: 'Magic the Gathering',
-												// 	icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
-												// }
-											]
-											}
-											value={game}
-											open={gamePickerOpen}
-											setOpen={setGamePickerOpen}
-											setValue={setGame}
-											iconContainerStyle={{alignItems: 'center', padding:10}}
-											containerStyle={styles.picker}/>
-						<TextInput placeholder='Search by card name' 
-											style ={[styles.item]} 
-											onChangeText={onTextChange}/>
+											
+							<TextInput placeholder='Search by card name' 
+								style ={[styles.item]} 
+								onChangeText={onTextChange}
+							/>
 						<ButtonBlackWhite text='Submit' functionality = {() => {onSubmit()}}/>
 					</View>
 					{
@@ -144,9 +149,15 @@ const styles = StyleSheet.create ({
   title: {
     fontSize: 26,
   },
+	dropMenuWrapper: {
+		marginTop: 10,
+		marginBottom: 50,
+		flex: 1,
+		alignItems: 'center',
+	},
   tinyLogo: {
-    width: 150,
-    height: 50,
+    width: 195,
+    height: 70,
   },
   details: {
     flex: 1,
@@ -177,12 +188,6 @@ const styles = StyleSheet.create ({
 		height: 80,
 		padding: 10,
 		flexDirection: 'row',
-	},
-	dropMenuWrapper: {
-		marginTop: 10,
-		marginBottom: 50,
-		flex: 1,
-		alignItems: 'center',
 	},
 })
 

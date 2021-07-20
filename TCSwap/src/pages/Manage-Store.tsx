@@ -5,6 +5,7 @@ import Banner from '../components/Banner';
 import ButtonBlackWhite from '../components/button-black-white/ButtonBlackWhite';
 import CardDetailItemReusable from '../components/card-detail-item-reuse/CardDetailItem.component';
 import StoreCardItem from '../components/StoreCardItem'
+import DBCard from '../models/DBCard';
 import StoreDB from '../models/store';
 import User from '../models/user';
 import YGOCard from '../models/YGOCard';
@@ -29,16 +30,20 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
 
   const user: User = useAppSelector((state) => {
     return state.user as User
-})
+  })
 
   const inventory = useAppSelector<CollectionState>(selectCollection) || [];
+  console.log(inventory)
 
   useEffect(() => {
     
     (async () => {
-      await dispatch(getCollectionAsync(user.username));
+      if(user) {
+        await dispatch(getCollectionAsync(user.username));
+      }
     })();
   }, []);
+  
 
   useEffect(() => {
     (async () => {
@@ -48,9 +53,8 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
       if (cards.length > 0) {
         setFeaturedCard([cards[0].card_identifier]); 
       }
-      
     })()
-  },[])
+  },[inventory])
 
   useEffect(() => {
     (async() => {
@@ -81,7 +85,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
     return (
       <StoreCardItem
         cardName={item.card_identifier}
-        onPress={() => navigation.navigate('Card Details', { navigation, item, setFeaturedCard })}
+        onPress={() => navigation.navigate('Card Details', { navigation, item, setFeaturedCard, user })}
       />
     )
   }
@@ -106,7 +110,7 @@ const ManageStore: React.FC<Props> = ({ navigation }) => {
         <FlatList
         data={inventory}
         renderItem={renderItem}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
       />
       </View>
     </ScrollView>
