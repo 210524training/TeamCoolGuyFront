@@ -1,31 +1,26 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, TextInput, Text, View, FlatList, TouchableOpacity } from 'react-native';
-/* import { useAppDispatch, useAppSelector } from '../hooks';
-import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice'; */
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import styles from '../components/card-detail-item-reuse/CardDetailItem.styles';
 import Banner from '../components/Banner';
 import { getAllStores } from '../remote/Backend.api';
-import store from '../redux/store';
+import Store  from '../models/store';
 
-type Props = { navigation: any }
+type Props = { 
+  navigation: any
+}
 
 
 const ViewStoresPage: React.FC<Props> = ({ navigation }) => {
 
-  const [stores, setStores] = useState([
-
-  ]);
-
-  const [collection, setCollection] = useState([
-
-  ]);
+  const [stores, setStores] = useState<Store[]>([]);
+  const [collection, setCollection] = useState<Store[]>([]);
 
   useEffect(() => {
     (async () => {
-      const data = await getAllStores()
+      const data: Store[] = await getAllStores()
       setStores(data)
+      console.log(data)
     })()
   },[])
   useEffect(() => {
@@ -38,15 +33,17 @@ const ViewStoresPage: React.FC<Props> = ({ navigation }) => {
 
   return (
 
-    <View /* style={styles.storesListStyle} */>
+    <View>
       <Banner text="Stores" />
       <FlatList
         data={collection}
+        keyExtractor={item => item.storeOwner}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => pressHandler(item)}>
             <Text style={[adFontes.storeText, styles.container]}>{item.storeName}</Text>
           </TouchableOpacity>
         )}
+
       />
     </View>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import YGOCard from '../models/YGOCard';
 import { getCardByName } from '../remote/apis/YGOapi';
 import CardDetailItemReusable from './card-detail-item-reuse/CardDetailItem.component'
@@ -42,12 +42,23 @@ const ViewStoreCardDetails: React.FC<props> = ({ data, route }) => {
 
   useEffect(() => {
     setCardDetails(cardData)
+    console.log(cardData)
   }, [cardData])
 
     return ( 
-        <ScrollView>
+      <ScrollView>
+        {
+          cardDetails.length > 0 ?
+          <>
             <CardDetailItemReusable data={cardDetails[0]}/>
-        </ScrollView>
+            <View style={{margin: 20}}>
+            </View>
+          </>
+          :
+          <>
+          </>
+        } 
+      </ScrollView>
     )
 
 }

@@ -52,7 +52,13 @@ const Collection: React.FC<props> = (props) => {
   return (
     <>
       <ScrollView style={styles.container}>
-        <Banner text = 'Player Name'/>
+        {
+          user ?
+          <Banner text={user.username} />
+          :
+          <Banner text='Player' />
+        }
+        
         {buttons}
         <View style={styles.controls}>
           <ButtonBlackWhite text='Add a card' functionality={() => {props.navigation.navigate('Add Card Page')}}/>
