@@ -26,10 +26,11 @@ const Messenger: React.FC<unknown> = () => {
     }
     
   }
-
+  
   useEffect(() => {
+    retrieveMessages();
     setInterval(retrieveMessages, 10000)
-  })
+  },[])
 
   const onSend = useCallback((messages = []) => {
     // send to backend
