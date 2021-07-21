@@ -6,7 +6,7 @@ import { SearchCardResult } from '../models/SearchCardResult';
 import User from '../models/user';
 
 const backendClient = axios.create({
-  baseURL: 'https://r9zg4fapic.execute-api.us-west-1.amazonaws.com/dev',
+  baseURL: 'https://akw15eu8tk.execute-api.us-west-2.amazonaws.com/dev',
   headers: {
     'Content-Type': 'application/json',
   },
