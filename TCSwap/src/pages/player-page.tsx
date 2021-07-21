@@ -8,6 +8,7 @@ import TradePage from './trade-page';
 import MyCollectionPage from './player-colleciton-page';
 import ViewStoreNav from '../components/ViewStoreNav';
 import SearchCardPageMain from '../pages/search-card-page-main';
+import Messenger from './Messenger';
 
 const PlayerPage: React.FC<unknown> = () => {
 
@@ -19,6 +20,7 @@ const PlayerPage: React.FC<unknown> = () => {
         <Tab.Screen name="My Collection" component={MyCollectionPage} />
         <Tab.Screen name="Find Card" component={SearchCardPageMain} /> 
         <Tab.Screen name="Trades" component={TradePage} />
+        <Tab.Screen name="Messages" component={Messenger} />
         <Tab.Screen name="View Stores" component={ViewStoreNav} /> 
       </Tab.Navigator>
     </>

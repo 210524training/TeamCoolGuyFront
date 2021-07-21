@@ -24,7 +24,6 @@ const TradePage: React.FC<unknown> = () => {
       >
           <Tab.Screen name="My Offers" component={OffersPage} />
           <Tab.Screen name="My Requests" component={RequestsPage} />
-          <Tab.Screen name="Messenges" component={Messenger} />
       </Tab.Navigator>
     </>
   );
