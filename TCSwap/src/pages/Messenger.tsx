@@ -15,14 +15,20 @@ const Messenger: React.FC<unknown> = () => {
 
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-
-    (async () => {
+  const retrieveMessages = async () => {
+    try {
       const data = await getMessages();
       const sortData = data.reverse()
+      console.log('retrieved')
       setMessages(sortData)
-    })()
+    } catch(err) {
+      console.log(err)
+    }
+    
+  }
 
+  useEffect(() => {
+    setInterval(retrieveMessages, 10000)
   })
 
   const onSend = useCallback((messages = []) => {

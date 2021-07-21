@@ -94,6 +94,7 @@ export const postMessages = async (message: Message): Promise<void> => {
 
 export const getMessages = async (): Promise<any> => {
   const res = await backendClient.get<any>(`messages`)
+  console.log(res)
   return res.data.messages
 }
 
