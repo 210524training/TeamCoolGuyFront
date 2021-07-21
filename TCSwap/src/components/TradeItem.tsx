@@ -81,8 +81,6 @@ const TradeItem: React.FC<Props> = ( { navigation, route }) => {
     <ScrollView>
       <View>
         {requestors}
-       {/* <CardDetailItemReusable data={offer} /> */}
-        <Text>Your card here</Text>
         {(deciderCard)?
           (
             <CardDetailItemReusable data={deciderCard} />
