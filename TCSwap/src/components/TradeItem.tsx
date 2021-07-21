@@ -11,14 +11,14 @@ import CardDetailItemReusable from './card-detail-item-reuse/CardDetailItem.comp
 import Offer from '../models/Offer';
 import { useAppSelector, useAppDispatch } from '../redux';
 import { UserState, selectUser } from '../redux/slices/user.slice';
-import { acceptOffer } from '../remote/Backend.api';
+import { acceptOffer, rejectOffer } from '../remote/Backend.api';
 
 type Props = { 
   navigation: any,
   route: any
 }
 
-const TradeItem: React.FC<Props> = ( { route }) => {
+const TradeItem: React.FC<Props> = ( { navigation, route }) => {
   const offer = route.params.trade as Offer;
   const [requestorCard, setRequestorCard] = React.useState<YGOCard>();
   const [deciderCard, setDeciderCard] = React.useState<YGOCard>();
@@ -34,8 +34,27 @@ const TradeItem: React.FC<Props> = ( { route }) => {
     })();
   }, [])
 
-  const handleAccept() => {
-    result = await acceptOffer(offer);
+  async function handleAccept() {
+    const result = await acceptOffer(offer);
+    if(result){
+      alert('Trade accepted!');
+      navigation.navigate('My Offers'); 
+    }
+    else{
+      alert('Request failed.');
+    }
+    
+  }
+
+  async function handleReject() {
+    const result = await rejectOffer(offer);
+    if(result){
+      alert('Trade rejected.');
+      navigation.navigate('My Offers'); 
+    }
+    else{
+      alert('Request failed.');
+    }
     
   }
 
@@ -61,12 +80,6 @@ const TradeItem: React.FC<Props> = ( { route }) => {
   return (
     <ScrollView>
       <View>
-        {/* <Image/> */}
-        <Text>Swap with: {/* Insert other user */}</Text>
-        <Text>Defense</Text>
-        <Text>Level</Text>
-        <Text>Attribute</Text>
-        <Text>Swap card</Text>
         {requestors}
        {/* <CardDetailItemReusable data={offer} /> */}
         <Text>Your card here</Text>
@@ -79,8 +92,8 @@ const TradeItem: React.FC<Props> = ( { route }) => {
       {(user?.username === offer.decider)? 
         (
           <View style={styles.controls}>
-            <ButtonBlackWhite text="Accept" functionality= { () => {} }/>  {/*  TODO: add functionality */}
-            <ButtonBlackWhite text="Reject" functionality= { () => {} }/>  {/*  TODO: add functionality */}
+            <ButtonBlackWhite text="Accept" functionality= { () => { handleAccept() } }/>
+            <ButtonBlackWhite text="Reject" functionality= { () => { handleReject() } }/>  
           </View>
         ) : (<></>)
       }

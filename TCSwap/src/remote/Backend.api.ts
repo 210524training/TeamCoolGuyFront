@@ -57,6 +57,11 @@ export const acceptOffer = async (Offer: Offer): Promise<boolean> => {
   return offer.data.message as boolean;
 }
 
+export const rejectOffer = async (Offer: Offer): Promise<boolean> => {
+  const offer = await backendClient.post<{message: boolean}>(`offers/reject`, { OfferID: Offer.id });
+  return offer.data.message as boolean;
+}
+
 /**
  * 
  * MESSANGER
