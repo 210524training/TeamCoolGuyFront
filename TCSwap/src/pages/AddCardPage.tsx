@@ -90,59 +90,34 @@ const AddCardPage: React.FC<props> = (props) => {
 				<Banner text='Search for the card you want to add' />
 				<ScrollView>
 					<View style={styles.dropMenuWrapper}>
-												<DropDownPicker items={[
-													{
-														label: '',
-														value: 'Yu-Gi-Oh!',
-														icon: () => (<Image 
-															source={require('../assets/Yu-Gi-Oh.png')} 
-															style={styles.tinyLogo}
-															/>)
-													},
-													// {
-													// 	label: '',
-													// 	value: 'Magic the Gathering',
-													// 	icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
-													// }
-												]
-												}
-												value={game}
-												open={gamePickerOpen}
-												setOpen={setGamePickerOpen}
-												setValue={setGame}
-												iconContainerStyle={{alignItems: 'center', padding:10, }}
-												containerStyle={styles.picker}
-											/>
+							<DropDownPicker items={[
+								{
+									label: '',
+									value: 'Yu-Gi-Oh!',
+									icon: () => (<Image 
+										source={require('../assets/Yu-Gi-Oh.png')} 
+										style={styles.tinyLogo}
+										/>)
+								},
+								{
+									label: '',
+									value: 'Magic the Gathering',
+									icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
+								}
+							]
+							}
+							value={game}
+							open={gamePickerOpen}
+							setOpen={setGamePickerOpen}
+							setValue={onChange}
+							iconContainerStyle={{alignItems: 'center', padding:10, }}
+							containerStyle={styles.picker}
+						/>
 					</View>
 					<View style={styles.controls}>
-											{/* <Picker
-												selectedValue={game}
-												style={styles.item}
-												onValueChange={(itemValue, itemIndex) => setGame(itemValue)}>
-												<Picker.Item label='Yu-Gi-Oh!' value='Yu-Gi-Oh!'/>
-											</Picker> */}
-											<DropDownPicker items={[
-												{
-													label: '',
-													value: 'Yu-Gi-Oh!',
-													icon: () => (<Image source={require('../assets/Yu-Gi-Oh.png')} style={styles.tinyLogo}></Image>)
-												},
-												{
-													label: '',
-													value: 'Magic the Gathering',
-													icon: () => (<Image source={require('../assets/magic-logo.png')} style={styles.tinyLogo}></Image>)
-												}
-											]
-											}
-											value={game}
-											open={gamePickerOpen}
-											setOpen={setGamePickerOpen}
-											setValue={onChange}
-											iconContainerStyle={{alignItems: 'center', padding:10}}
-											containerStyle={styles.picker}/>
 						<TextInput placeholder='Search by card name' 
-											style ={[styles.item]} 
-											onChangeText={onTextChange}/>
+									style ={[styles.item]} 
+									onChangeText={onTextChange}/>
 						<ButtonBlackWhite text='Submit' functionality = {() => {onSubmit()}}/>
 					</View>
 					{
@@ -206,11 +181,12 @@ const styles = StyleSheet.create ({
     alignItems: 'flex-end',
   },
   controls: {
+	flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
   container: {
-		justifyContent: 'space-between',
+	justifyContent: 'space-between',
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
