@@ -42,7 +42,7 @@ const Requests: React.FC<Props> = ({ navigation }) => {
             data={offers}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => handleOnPress(item)}>
-                <Text style={[adFontes.text, styles.container]}>{item.requestor}</Text>
+                <Text style={[adFontes.text, styles.container]}>{item.decider}</Text>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => String(item.id)}
