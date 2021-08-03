@@ -1,4 +1,7 @@
 # TeamCoolGuy-Front
+
+[Click here to view backend repository](https://github.com/210524training/TeamCoolGuyBackend)
+
 Front end repository for TeamCoolGuy's trading card game inventory management system, also known as TC-Swap.
 
 TC-Swap is a trading card game inventory management system. Our goal is to engage the diverse and vast community of collecting and trading cards. It can be challenging scouring the internet across many websites looking for the right card. Online trading can be a hassle as many websites do not offer services for such activities.  TC-Swap will solve this problem by providing a streamlined, focused platform centered around trading card enthusiasts where collectors, traders, and sellers of all different TCG's can engage in trades and sales. 
